@@ -5,16 +5,17 @@ namespace ConsoleApp1.Entities
 {
 	abstract class Entity
 	{
-		protected Texture2D texture;
-		protected Color color = Color.WHITE;
+		protected Texture2D Texture;
+		protected Color Color = Color.WHITE;
 		public Vector2 Position, Velocity;
+		public float Rotation, Scale;
 
 		public bool IsExpired; // true if the entity was destroyed and should be deleted
 
 		public abstract void Update();
 		public virtual void Draw()
 		{
-			Raylib.DrawTexture(texture, (int)Position.X, (int)Position.Y, color);
+			Raylib.DrawTextureEx(Texture, Position, Rotation, Scale, Color);
 		}
 	}
 }
