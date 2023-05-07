@@ -8,7 +8,7 @@ namespace ConsoleApp1
 
         public static void Load()
 		{
-			Ant = Raylib.LoadTexture(@"resources\ant.png");
+			Ant = Raylib.LoadTexture("Assets/ant.png");
 		}
 
 		// Will more then one instance be able to use this texture?
