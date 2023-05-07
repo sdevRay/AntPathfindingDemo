@@ -1,13 +1,12 @@
 ﻿using ConsoleApp1.Entities;
 using Raylib_cs;
 using System.Numerics;
-using System.Runtime.InteropServices;
-using System.Text;
 
 namespace ConsoleApp1
 {
-	static class Program
+    static class Program
 	{
+		public static Vector2 ScreenSize = new Vector2(800, 600);
 		public static void Main()
 		{
             Initialize();
@@ -22,6 +21,7 @@ namespace ConsoleApp1
 				// EntityManager
 				EntityManager.Update();
 				EntityManager.Draw();
+				InsectSpawner.Update();
 
 				Raylib.EndDrawing();
 			}
@@ -31,12 +31,10 @@ namespace ConsoleApp1
 
         public static void Initialize()
 		{
-			Raylib.InitWindow(800, 480, "Ant Simulator");
+			Raylib.InitWindow((int)ScreenSize.X, (int)ScreenSize.Y, "Ant Simulator");
 			Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
 
             Art.Load();
-
-			EntityManager.Add(new Ant(Art.Ant, new Vector2(25, 25)));
 		}
 
 		public static void Dispose()
