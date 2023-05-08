@@ -1,4 +1,5 @@
-﻿using Raylib_cs;
+﻿using ConsoleApp1.States;
+using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.Entities
@@ -9,8 +10,7 @@ namespace ConsoleApp1.Entities
         {
             Texture = texture;
             Position = position;
-            Scale = 0.10f;
-            Rotation = 0f;
+            Rotation = default;
 
             Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"[{DateTime.Now.TimeOfDay}] [{nameof(Entity)}] {nameof(Insect)} created.");
         }
@@ -18,11 +18,15 @@ namespace ConsoleApp1.Entities
         public static Insect CreateAnt(Vector2 position)
         {
             var insect = new Insect(Art.Ant, position);
+            insect.SetState(new IdleState());
             return insect;
         }
 
         public override void Update()
         {
+            State.Update(this);
+
+            Position += Velocity;
         }
     }
 }
