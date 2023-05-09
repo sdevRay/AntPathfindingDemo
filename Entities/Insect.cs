@@ -21,22 +21,26 @@ namespace ConsoleApp1.Entities
 			insect.SetState(new IdleState());
 			return insect;
 		}
-
+		
 		public override void Update()
 		{
 			State.Update(this);
 
-			Position += Velocity;
-			// Check walls collision for bouncing
-			//if ((Position.X >= (Program.ScreenSize.X - DestRec.width)) || (Position.X <= DestRec.width))
-			//{
-			//	Velocity.X *= -1.0f;
-			//}
+            float rotation = (float)Math.Atan2(Velocity.Y, Velocity.X) * (float)(180.0f / Math.PI);
+			Rotation = rotation;
 
-			//if ((Position.Y >= (Program.ScreenSize.Y - DestRec.height)) || (Position.Y <= DestRec.height))
-			//{
-			//	Velocity.Y *= -1.0f;
-			//}
-		}
-	}
+            Position += Velocity;
+
+            // Check walls collision for bouncing
+            //if ((Position.X >= (Program.ScreenSize.X - DestRec.width)) || (Position.X <= DestRec.width))
+            //{
+            //	Velocity.X *= -1.0f;
+            //}
+
+            //if ((Position.Y >= (Program.ScreenSize.Y - DestRec.height)) || (Position.Y <= DestRec.height))
+            //{
+            //	Velocity.Y *= -1.0f;
+            //}
+        }
+    }
 }

@@ -1,6 +1,5 @@
 ﻿using ConsoleApp1.Entities;
 using Raylib_cs;
-using System;
 using System.Numerics;
 
 namespace ConsoleApp1.States
@@ -21,54 +20,22 @@ namespace ConsoleApp1.States
         {
             if (entity is Insect insect)
             {
-				foreach(var food in EntityManager.Foods)
-				{
+                foreach (var food in EntityManager.Foods)
+                {
+                    var distance = Vector2.Distance(insect.Position, food.Position);
 
-					
+                    if (distance < 300)
+                    {
+                        // Draw a line between the two objects to indicate their direction
+                        Raylib.DrawLineEx(insect.Position, food.Position, 2f, Color.BLACK);
+                        Raylib.DrawText(distance.ToString(), (int)(insect.Position.X + insect.DestRec.height), (int)(insect.Position.Y + insect.DestRec.height), 20, Color.BLACK);
+                    }
 
-
-					// Draw a line between the two objects to indicate their direction
-					Raylib.DrawLineEx(insect.Position, food.Position, 2f, Color.BLACK);
-
-
-					insect.Rotation = (float)angle;
-					Raylib.DrawText(angle.ToString(), 12, 12, 20, Color.BLACK);
-
-					//// Move the moving circle towards the stationary circle
-					//Vector2 desiredVelocity = Vector2.Normalize(stationaryCircle.center - movingCircle.center) * 5;
-					//velocity += (desiredVelocity - velocity) * 0.1f;
-					//movingCircle.center += velocity;
-				}
-
-
-
-				//public static float ToAngle(this Vector2 vector)
-				//{
-				//	return (float)Math.Atan2(vector.Y, vector.X);
-				//}
-
-				//framesCounter++;
-				//if (framesCounter == 60)
-				//{
-				//    insect.Velocity = Vector2.UnitX;
-				//} 
-				//else if (framesCounter == 120)
-				//{
-				//    insect.Velocity = -Vector2.UnitY;
-				//}
-				//else if (framesCounter == 180)
-				//{
-				//    insect.Velocity = -Vector2.UnitX;
-				//}
-				//else if (framesCounter == 240)
-				//{
-				//    insect.Velocity = Vector2.UnitY;
-				//}
-				//else if (framesCounter == 300)
-				//{
-				//    insect.SetState(new IdleState());
-				//}
-			}
+                    // Moving oject seeks other object
+                    Vector2 desiredVelocity = Vector2.Normalize(food.Position - insect.Position);
+                    insect.Velocity += (desiredVelocity - insect.Velocity) * 0.1f;
+                }
+            }
         }
     }
 }
