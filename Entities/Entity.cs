@@ -11,6 +11,7 @@ namespace ConsoleApp1.Entities
 		protected Color Color = Color.WHITE;
 		public Vector2 Position, Velocity;
 		public float Rotation;
+		public float Radius = 20; // used for circular collision detection
 		public bool IsExpired; // true if the entity was destroyed and should be deleted
         
 		public Vector2 TextureOrigin { get { return new(Texture.width / 2, Texture.height / 2); } }

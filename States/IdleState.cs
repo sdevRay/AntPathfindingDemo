@@ -21,19 +21,19 @@ namespace ConsoleApp1.States
         {
             if(entity is Insect insect)
             {
-                if(framesCounter == 0)
-                {
-                    insect.Velocity = Vector2.Zero;
-                }
+                //if(framesCounter == 0)
+                //{
+                //    insect.Velocity = Vector2.Zero;
+                //}
 
-                framesCounter++;
+               // framesCounter++;
  
-               insect.Rotation += 60.0f * Raylib.GetFrameTime(); // Rotate the rectangles, 60 degrees per second
+              // insect.Rotation += 60.0f * Raylib.GetFrameTime(); // Rotate the rectangles, 60 degrees per second
 
-                if (framesCounter == 60)
-                {
+                //if (framesCounter == 60)
+                //{
                     insect.SetState(new SeekFoodState());                    
-                }
+                //}
             }
         }
     }

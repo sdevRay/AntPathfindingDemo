@@ -11,8 +11,11 @@ namespace ConsoleApp1.Entities
         {
             if (_first)
             {
+                // This is for testing, food will not come from the InsectSpanwer.
+				EntityManager.Add(Environment.Food.CreatePizza(GetSpawnPosition()));
+
                 EntityManager.Add(Insect.CreateAnt(GetSpawnPosition()));
-                _first = false;
+				_first = false;
             }
         }
 
