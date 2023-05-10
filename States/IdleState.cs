@@ -1,12 +1,11 @@
 ﻿using ConsoleApp1.Entities;
 using Raylib_cs;
-using System.Numerics;
 
 namespace ConsoleApp1.States
 {
     internal class IdleState : IState
     {
-        int framesCounter = default;
+        private Timer _timer;
 
         public void HandleAction(Entity entity, Actions action)
         {
@@ -17,23 +16,26 @@ namespace ConsoleApp1.States
             //}
         }
 
+        public IdleState() 
+        {
+            _timer = new Timer((float)Raylib.GetRandomValue(1, 2));
+        }
+
         public void Update(Entity entity)
         {
-            if(entity is Insect insect)
+           if(entity is Insect insect)
             {
-                //if(framesCounter == 0)
-                //{
-                //    insect.Velocity = Vector2.Zero;
-                //}
+                if (!_timer.IsComplete())
+                {
+                    insect.Rotation = (float)Raylib.GetTime() * 90;
+                    _timer.Update();
+                }
+                else
+                {
+                    insect.SetState(new ExploreState());
+                }
 
-               // framesCounter++;
- 
-              // insect.Rotation += 60.0f * Raylib.GetFrameTime(); // Rotate the rectangles, 60 degrees per second
-
-                //if (framesCounter == 60)
-                //{
-                    insect.SetState(new SeekFoodState());                    
-                //}
+                Raylib.DrawText(insect.Rotation.ToString(), (int)(insect.Position.X + insect.DestRec.height), (int)(insect.Position.Y + insect.DestRec.height), 20, Color.BLACK);
             }
         }
     }

@@ -13,7 +13,8 @@ namespace ConsoleApp1.Entities
 		public float Radius = 20; // used for circular collision detection
 		public bool IsExpired; // true if the entity was destroyed and should be deleted
         
-		public Vector2 Origin { get { return new(Texture.width / 2, Texture.height / 2); } }
+		public Vector2 TextureSize { get { return new Vector2(Texture.width, Texture.height); } }
+		public Vector2 Origin { get { return new Vector2(Texture.width / 2, Texture.height / 2); } }
 		public Rectangle SourceRec { get { return new Rectangle(0, 0, Texture.width, Texture.height);  } }
         public Rectangle DestRec { get { return new Rectangle(Position.X, Position.Y, Texture.width, Texture.height); } }
 

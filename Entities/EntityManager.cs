@@ -1,8 +1,6 @@
-﻿using Raylib_cs;
-
-namespace ConsoleApp1.Entities
+﻿namespace ConsoleApp1.Entities
 {
-	static class EntityManager
+    static class EntityManager
 	{
 		static List<Entity> _entities = new();
 		static List<Insect> _insects = new();
