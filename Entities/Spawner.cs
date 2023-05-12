@@ -17,7 +17,6 @@ namespace ConsoleApp1.Entities
                 EntityManager.Add(Environment.Food.CreatePizza(GetSpawnPosition()));
                 EntityManager.Add(Insect.CreateAnt(GetSpawnPosition()));
 
-
                 _first = false;
             }
         }

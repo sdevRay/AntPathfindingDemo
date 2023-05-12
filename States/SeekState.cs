@@ -1,16 +1,24 @@
 ﻿using ConsoleApp1.Entities;
+using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.States
 {
     internal class SeekState : IState
     {
-        private readonly Entity _target;
+        private Vector2 _targetPosition;
+        private readonly Entity? _target;
 
-        public SeekState(Entity target)
+        public SeekState(Entity target) : this(target.Position)
         {
-            _target = target;
+            _target = target;      
         }
+
+        public SeekState(Vector2 targetPosition)
+        {
+            _targetPosition = targetPosition;
+        }
+
         public void HandleAction(Entity entity, Actions action)
         {
             //if (input == RELEASE_DOWN)
@@ -24,10 +32,31 @@ namespace ConsoleApp1.States
         {
             if (entity is Insect insect)
             {
-                // Moving oject seeks other object
-                Vector2 desiredVelocity = Vector2.Normalize(_target.Position - insect.Position);
-                insect.Velocity += (desiredVelocity - insect.Velocity) * 0.1f;
-                insect.Ortientate();
+                // Calculate direction towards target
+                Vector2 direction = _targetPosition - insect.Position;
+
+                // ??? Set direction to targer ^ random interval set it to a random offset ??? This to cause slight curving in path
+                // Update direction towards random target point
+                //if (direction == Vector2.Zero || Vector2.Distance(position, direction) <= speed * Raylib.GetFrameTime())
+                //{
+                //    direction = new Vector2(Raylib.GetRandomValue(0, Raylib.GetScreenWidth()), Raylib.GetRandomValue(0, Raylib.GetScreenHeight()));
+                 
+                //    direction -= position;
+                //}
+
+                // Normalize direction to get unit vector
+                Vector2 normalizedDirection = Vector2.Normalize(direction);
+
+                // Set velocity based on direction
+                insect.Velocity = normalizedDirection;
+
+                // Target reached
+                if (Vector2.Distance(insect.Position, _targetPosition) < 1.0f)
+                {
+                    insect.SetState(new IdleState());
+                }
+
+                Raylib.DrawLineV(insect.Position, _targetPosition, Color.BLACK);                                     
 
                 // check and handle collision
                 // if (entity is whatever)

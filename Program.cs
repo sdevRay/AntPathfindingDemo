@@ -29,8 +29,7 @@ namespace ConsoleApp1
 
         public static void Initialize()
         {
-            Raylib.InitWindow(800, 600, "Ant Simulator");
-            Raylib.SetTargetFPS(60);
+            Raylib.InitWindow(1280, 720, "Ant Simulator");
             Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
 
             Art.Load();
