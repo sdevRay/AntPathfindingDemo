@@ -1,4 +1,7 @@
-﻿namespace ConsoleApp1.Entities
+﻿using Raylib_cs;
+using System.Numerics;
+
+namespace ConsoleApp1.Entities
 {
     static class EntityManager
 	{
@@ -37,7 +40,24 @@
 
 		public static void HandleCollisions() 
 		{ 
-			// TODO
+			for(int i = 0; i < _insects.Count; i++)
+			{
+				for(int j = i + 1;  j < _insects.Count; j++)
+				{
+                    // If the sprites are colliding, bump them away from each other
+                    if (Raylib.CheckCollisionCircles(_insects[i].Position, _insects[i].Radius, _insects[j].Position, _insects[j].Radius))
+                    {
+                        // Calculate the vector between the two sprites
+                        Vector2 collisionVector = _insects[j].Position - _insects[i].Position;
+                        collisionVector = Vector2.Normalize(collisionVector);
+
+                        // Move the sprites apart along the collision vector
+                        _insects[i].Position -= collisionVector * 2f;
+                        _insects[j].Position += collisionVector * 2f;
+
+					}
+                }
+			}
 		}
 
 		public static void Draw()

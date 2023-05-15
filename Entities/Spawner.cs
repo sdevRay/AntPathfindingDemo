@@ -15,7 +15,11 @@ namespace ConsoleApp1.Entities
                 // send commands here to a dictionary or something that has delegates for what methods to call
 
                 EntityManager.Add(Environment.Food.CreatePizza(GetSpawnPosition()));
-                EntityManager.Add(Insect.CreateAnt(GetSpawnPosition()));
+
+                foreach (int value in Enumerable.Range(1, 40))
+                {
+                    EntityManager.Add(Insect.CreateAnt(GetSpawnPosition()));
+                }
 
                 _first = false;
             }

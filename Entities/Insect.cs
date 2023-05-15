@@ -7,6 +7,7 @@ namespace ConsoleApp1.Entities
     internal class Insect : Entity
     {
         public float Speed = 100.0f;
+        public float Radius = 10; // used for circular collision detection
         public Insect(Texture2D texture, Vector2 position)
         {
             Texture = texture;
@@ -25,10 +26,10 @@ namespace ConsoleApp1.Entities
 
         public override void Update()
         {
-            Raylib.DrawText(State.GetType().ToString(), 12, 12, 20, Color.BLACK);
+            if(Program.Debug)
+                Raylib.DrawText(State.GetType().ToString(), (int)Position.X, (int)Position.Y, 10, Color.BLACK);
 
             State.Update(this);
-
             Position += Velocity * Speed * Raylib.GetFrameTime();
         }
     }

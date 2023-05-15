@@ -6,7 +6,6 @@ namespace ConsoleApp1.States
 {
     internal class IdleState : IState
     {
-        private CountDownTimer _timer;
         private Vector2? _targetPosition;
         public void HandleAction(Entity entity, Actions action)
         {
@@ -68,8 +67,11 @@ namespace ConsoleApp1.States
                     insect.SetState(new SeekState(_targetPosition.Value));
                 }
 
-                Raylib.DrawLineV(insect.Position, _targetPosition.Value, Color.BLACK);
-                Raylib.DrawText(insect.Rotation.ToString(), 12, 36, 20, Color.BLACK);    
+                if (Program.Debug)
+                {
+                    Raylib.DrawLineV(insect.Position, _targetPosition.Value, Color.BLACK);
+                    Raylib.DrawText(insect.Rotation.ToString(), (int)insect.Position.X + 10, (int)insect.Position.Y + 10, 5, Color.BLACK);    
+                }
             }
         }
     }

@@ -9,7 +9,6 @@ namespace ConsoleApp1.States
         private Vector2 _targetPosition;
         private readonly Entity? _target;
         private float _time = 0f;
-        private CountDownTimer _timer = new CountDownTimer(1f);
 
         public SeekState(Entity target) : this(target.Position)
         {
@@ -64,7 +63,10 @@ namespace ConsoleApp1.States
                     insect.SetState(new IdleState());
                 }
 
-                Raylib.DrawLineV(insect.Position, _targetPosition, Color.BLACK);
+                if (Program.Debug)
+                {
+                    Raylib.DrawLineV(insect.Position, _targetPosition, Color.RED);
+                }
             }
         }
     }
