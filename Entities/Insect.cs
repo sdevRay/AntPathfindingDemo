@@ -29,49 +29,7 @@ namespace ConsoleApp1.Entities
 
             State.Update(this);
 
-            // Orientate towards direction of movement
-            float rotation = (float)Math.Atan2(Velocity.Y, Velocity.X) * (float)(180.0f / Math.PI);
-            Rotation = rotation;
-
             Position += Velocity * Speed * Raylib.GetFrameTime();
-
-            const int radius = 100;
-
-            if (Position.X < 0)
-            {
-                var randomPoint = new Vector2(
-                Raylib.GetRandomValue((int)Position.X, (int)Position.X + radius),
-                Raylib.GetRandomValue((int)Position.Y - radius, (int)Position.Y + radius));
-                //Velocity.X *= -1;
-                SetState(new SeekState(randomPoint));
-            }
-
-            if(Position.X > Raylib.GetScreenWidth())
-            {
-                var randomPoint = new Vector2(
-                Raylib.GetRandomValue((int)Position.X - radius, (int)Position.X),
-                Raylib.GetRandomValue((int)Position.Y - radius, (int)Position.Y + radius));
-                //Velocity.X *= -1;
-                SetState(new SeekState(randomPoint));
-            }
-
-            if (Position.Y < 0)
-            {
-                var randomPoint = new Vector2(
-                Raylib.GetRandomValue((int)Position.X - radius, (int)Position.X + radius),
-                Raylib.GetRandomValue((int)Position.Y, (int)Position.Y + radius));
-                //Velocity.Y *= -1;
-                SetState(new SeekState(randomPoint));
-            }
-
-            if (Position.Y > Raylib.GetScreenHeight())
-            {
-                var randomPoint = new Vector2(
-                Raylib.GetRandomValue((int)Position.X - radius, (int)Position.X + radius),
-                Raylib.GetRandomValue((int)Position.Y - radius, (int)Position.Y));
-                //Velocity.Y *= -1;
-                SetState(new SeekState(randomPoint));
-            }
         }
     }
 }

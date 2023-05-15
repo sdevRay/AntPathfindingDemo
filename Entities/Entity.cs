@@ -27,7 +27,7 @@ namespace ConsoleApp1.Entities
 
 		public virtual void Draw()
 		{
-            Raylib.DrawTexturePro(Texture, SourceRec, DestRec, Origin, Rotation, Color.WHITE);
+            Raylib.DrawTexturePro(Texture, SourceRec, DestRec, Origin, Rotation * (float)(180.0f / Math.PI), Color.WHITE);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 namespace ConsoleApp1.States
 {
 
-    internal struct Timer
+    internal struct CountDownTimer
     {
         // usage
         //if (!_timer.IsComplete())
@@ -17,10 +17,12 @@ namespace ConsoleApp1.States
         //}
 
         private float _lifeTime;
+        private float _backingLifeTime { get; }
 
-        public Timer(float lifeTime)
+        public CountDownTimer(float lifeTime)
         {
             _lifeTime = lifeTime;
+            _backingLifeTime = lifeTime;
         }
 
         public void Update()
@@ -29,6 +31,11 @@ namespace ConsoleApp1.States
             {
                 _lifeTime -= Raylib.GetFrameTime();
             }
+        }
+
+        public void Reset()
+        {
+            _lifeTime = _backingLifeTime;
         }
 
         public float GetTimeLeft()
