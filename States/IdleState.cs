@@ -7,6 +7,7 @@ namespace ConsoleApp1.States
     internal class IdleState : IState
     {
         private Vector2? _targetPosition;
+
         public void HandleAction(Entity entity, Actions action)
         {
             //if (input == RELEASE_DOWN)
@@ -27,9 +28,9 @@ namespace ConsoleApp1.States
             Raylib.GetRandomValue((int)position.X - radius, (int)position.X + radius),
             Raylib.GetRandomValue((int)position.Y - radius, (int)position.Y + radius));
 
-            var offset = 20;
+            var offsetFromEdgeOfScreen = 20;
             randomPoint = Vector2.Clamp(
-                randomPoint, new Vector2(offset, offset), new Vector2(Raylib.GetScreenWidth() - offset, Raylib.GetScreenHeight() - offset));
+                randomPoint, new Vector2(offsetFromEdgeOfScreen, offsetFromEdgeOfScreen), new Vector2(Raylib.GetScreenWidth() - offsetFromEdgeOfScreen, Raylib.GetScreenHeight() - offsetFromEdgeOfScreen));
 
             return randomPoint;
         }
@@ -40,7 +41,7 @@ namespace ConsoleApp1.States
             {
                 if (!_targetPosition.HasValue)
                 {
-                    _targetPosition = GetRandomPoint(insect.Position, 500);
+                    _targetPosition = GetRandomPoint(insect.Position, Raylib.GetRandomValue(200, 600));
                     insect.Velocity = Vector2.Zero;
                 }
 
@@ -61,7 +62,7 @@ namespace ConsoleApp1.States
                 // Gradually rotate the sprite towards the target position
                 insect.Rotation += shortestAngle * 10f * Raylib.GetFrameTime();
 
-                // If the sprite is facing the target position, choose a new random target
+                // If the sprite is facing the target position
                 if (Math.Abs(shortestAngle) < 0.1f)
                 {
                     insect.SetState(new SeekState(_targetPosition.Value));
@@ -70,7 +71,6 @@ namespace ConsoleApp1.States
                 if (Program.Debug)
                 {
                     Raylib.DrawLineV(insect.Position, _targetPosition.Value, Color.BLACK);
-                    Raylib.DrawText(insect.Rotation.ToString(), (int)insect.Position.X + 10, (int)insect.Position.Y + 10, 5, Color.BLACK);    
                 }
             }
         }

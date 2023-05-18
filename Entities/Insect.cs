@@ -6,7 +6,7 @@ namespace ConsoleApp1.Entities
 {
     internal class Insect : Entity
     {
-        public float Speed = 100.0f;
+        public float Speed = 150f;
         public float Radius = 10; // used for circular collision detection
         public Insect(Texture2D texture, Vector2 position)
         {

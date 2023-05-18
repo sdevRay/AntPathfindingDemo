@@ -3,7 +3,7 @@
 namespace ConsoleApp1.States
 {
 
-    internal struct CountDownTimer
+    internal struct CountdownTimer
     {
         // usage
         //if (!_timer.IsComplete())
@@ -19,7 +19,7 @@ namespace ConsoleApp1.States
         private float _lifeTime;
         private float _backingLifeTime { get; }
 
-        public CountDownTimer(float lifeTime)
+        public CountdownTimer(float lifeTime)
         {
             _lifeTime = lifeTime;
             _backingLifeTime = lifeTime;
