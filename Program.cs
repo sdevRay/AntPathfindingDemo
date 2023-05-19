@@ -23,7 +23,7 @@ namespace ConsoleApp1
                 EntityManager.Update();
 
                 // Draw
-                WorldMap.Draw();
+                WorldMap.DrawGraph();
                 EntityManager.Draw();
 
                 Raylib.EndDrawing();
@@ -37,7 +37,8 @@ namespace ConsoleApp1
             Raylib.InitWindow(1280, 720, "Ant Simulator");
             Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
 
-            WorldMap.CreateGrid();
+            WorldMap.CreateGraph();
+           WorldMap.BreadthFirstSearch(new Node(0, 0, 100, 100));
             Art.Load();
         }
 
