@@ -14,19 +14,16 @@ namespace ConsoleApp1.Entities
         
 		public Vector2 TextureSize { get { return new Vector2(Texture.width, Texture.height); } }
 		public Vector2 Origin { get { return new Vector2(Texture.width / 2, Texture.height / 2); } }
-		public Rectangle SourceRec { get { return new Rectangle(0, 0, Texture.width, Texture.height);  } }
-        public Rectangle DestRec { get { return new Rectangle(Position.X, Position.Y, Texture.width, Texture.height); } }
+		public Rectangle SourceRectangle { get { return new Rectangle(0, 0, Texture.width, Texture.height);  } }
+        public Rectangle DestinationRectangle { get { return new Rectangle(Position.X, Position.Y, Texture.width, Texture.height); } }
 
         public abstract void Update();
 
-		public virtual void SetState(IState state)
-		{
-			State = state;
-		}
+		public virtual void SetState(IState state) => State = state;
 
 		public virtual void Draw()
 		{
-            Raylib.DrawTexturePro(Texture, SourceRec, DestRec, Origin, Rotation * (float)(180.0f / Math.PI), Color.WHITE);
+            Raylib.DrawTexturePro(Texture, SourceRectangle, DestinationRectangle, Origin, Rotation * (float)(180.0f / Math.PI), Color.WHITE);
 		}
 	}
 }

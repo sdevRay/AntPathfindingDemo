@@ -38,7 +38,7 @@ namespace ConsoleApp1
             Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
 
             WorldMap.CreateGraph();
-           WorldMap.BreadthFirstSearch(new Node(0, 0, 100, 100));
+            WorldMap.AStarSearch(new Node(0, 0, 0, 0), new Node(0, 0, 0, 0));
             Art.Load();
         }
 
