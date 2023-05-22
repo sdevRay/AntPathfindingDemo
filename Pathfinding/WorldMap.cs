@@ -1,9 +1,12 @@
-﻿using Raylib_cs;
+﻿using ConsoleApp1.Entities;
+using Raylib_cs;
 using System.Drawing;
+using System.Numerics;
 
 namespace ConsoleApp1.Pathfinding
 {
 
+    // https://www.redblobgames.com/pathfinding/a-star/introduction.html
     internal static class WorldMap
     {
         public static List<Node> Graph = new List<Node>();
@@ -29,23 +32,18 @@ namespace ConsoleApp1.Pathfinding
             {
                 for (; y < height; y++) 
                 {
-                    AddNode(x, y, pixelBoundWidth, pixelBoundHeight, 1);
+                    // Testing Astar with random heavy movement cost nodes
+                    var movementCost = Raylib.GetRandomValue(1, 14);
+
+                    AddNode(x, y, pixelBoundWidth, pixelBoundHeight, movementCost);
                 }
 
                 y = 0;
             }   
         }
 
-        // https://www.redblobgames.com/pathfinding/a-star/introduction.html
-        public static void AStarSearch(Node start, Node goal)
+        public static IDictionary<Node, Node?> AStarSearch(Node start, Node goal)
         {
-            // Hijacked start for testing
-            start = Graph.First(g => g.Point.Equals(new Point(0, 0)));
-
-            // This is the goal
-            goal = Graph.First(g => g.Point.Equals(new Point(9, 9)));
-
-
             //frontier = PriorityQueue()
             //frontier.put(start, 0)
             //came_from = dict()
@@ -69,12 +67,9 @@ namespace ConsoleApp1.Pathfinding
 
             var frontier = new PriorityQueue<Node, int>();
             frontier.Enqueue(start, 0);
-
             // path A->B is stored as came_from[B] == A
             var cameFrom = new Dictionary<Node, Node?> { { start, null } };
-
             var cost_so_far = new Dictionary<Node, int>() { { start, 0 } };
-
 
             while (frontier.Count > 0) 
             { 
@@ -93,19 +88,31 @@ namespace ConsoleApp1.Pathfinding
                         frontier.Enqueue(next, priority);
                         cameFrom[next] = current;
                     }
-
-                    //if (!cameFrom.ContainsKey(next))
-                    //{
-                    //    frontier.Enqueue(next);
-                    //    cameFrom[next] = current;
-                    //}
                 }
             }
 
-            ReconstructPath(start, goal, cameFrom);
+            return cameFrom;
+            //ReconstructPath(start, goal, cameFrom);
         }
 
-        private static void ReconstructPath(Node start, Node goal, IDictionary<Node, Node?> cameFrom)
+        public static Stack<Node?> GetPath(Node start, Node goal)
+        {
+            var cameFrom = AStarSearch(start, goal);
+            var path = ReconstructPath(start, goal, cameFrom);
+            return path;
+        }
+
+        public static Node GetStartingNode(Entity entity)
+        {
+            return GetNode(entity.Position);
+        }
+
+        public static Node GetNode(Vector2 position)
+        {
+            return Graph.First(n => Raylib.CheckCollisionPointRec(position, n.DestinationRectangle));
+        }
+
+        private static Stack<Node?> ReconstructPath(Node start, Node goal, IDictionary<Node, Node?> cameFrom)
         {
             // The code to reconstruct paths
 
@@ -118,19 +125,27 @@ namespace ConsoleApp1.Pathfinding
             //path.reverse() # optional
 
             var current = goal;
-            var path = new HashSet<Node>();
+            var path = new HashSet<Node?>();
             while (current != null && current != start)
             {
                 _ = path.Add(current);
                 current = cameFrom.TryGetValue(current, out Node? value) ? value : null;
             }
-            path.Add(start);
+            //path.Add(start);
             path.Reverse();
 
-            foreach (var p in path)
+            var stack = new Stack<Node?>();
+            foreach (var item in path)
             {
-                p.Color = Raylib_cs.Color.RED;
+                if (item is not null)
+                {
+                    stack.Push(item);
+                    // For visual reference
+                    item.Color = Raylib_cs.Color.RED;
+                }
             }
+
+            return stack;
         }
 
         private static IEnumerable<Node> GetNeighbors(Node current)
@@ -160,10 +175,10 @@ namespace ConsoleApp1.Pathfinding
         {
             foreach (var node in Graph)
             {
-                Raylib.DrawTexture(Art.Grass, node.DestinationRectangle.X, node.DestinationRectangle.Y, Raylib_cs.Color.WHITE);
-                Raylib.DrawRectangleLines(node.DestinationRectangle.X, node.DestinationRectangle.Y, node.DestinationRectangle.X + node.DestinationRectangle.Width, node.DestinationRectangle.Y + node.DestinationRectangle.Height, Raylib_cs.Color.BLACK);
-                Raylib.DrawText(node.Point.ToString(), node.DestinationRectangle.X + 5, node.DestinationRectangle.Y + 5, 15, node.Color);
-                Raylib.DrawText(node.MovementCost.ToString(), node.DestinationRectangle.X + 10, node.DestinationRectangle.Y + 20, 20, node.Color);
+                Raylib.DrawTexture(Art.Grass, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, Raylib_cs.Color.WHITE);
+                Raylib.DrawRectangleLines((int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, (int)node.DestinationRectangle.x + (int)node.DestinationRectangle.width, (int)node.DestinationRectangle.y + (int)node.DestinationRectangle.height, Raylib_cs.Color.BLACK);
+                Raylib.DrawText(node.Point.ToString(), (int)node.DestinationRectangle.x + 5, (int)node.DestinationRectangle.y + 5, 15, node.Color);
+                Raylib.DrawText(node.MovementCost.ToString(), (int)node.DestinationRectangle.x + 10, (int)node.DestinationRectangle.y + 20, 20, node.Color);
             }
         }
     } 

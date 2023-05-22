@@ -26,6 +26,22 @@ namespace ConsoleApp1.Entities
             return insect;
         }
 
+        public void ApplyMovementCost(int movementCost)
+        {
+            switch (movementCost)
+            {
+                case > 10:
+                    Speed = 100f;
+                    break;
+                case > 5:
+                    Speed = 150f;
+                    break;
+                default:
+                    Speed = 200f;
+                    break;
+            }
+        }
+
         public override void Draw()
         {
             if (Program.Debug)

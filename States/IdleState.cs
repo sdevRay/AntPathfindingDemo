@@ -1,5 +1,6 @@
 ﻿using ConsoleApp1.Entities;
-using System.Numerics;
+using ConsoleApp1.Pathfinding;
+using Raylib_cs;
 
 namespace ConsoleApp1.States
 {
@@ -19,9 +20,21 @@ namespace ConsoleApp1.States
         {
             if (entity is Insect insect)
             {
-                insect.Target = null;
-                insect.Velocity = Vector2.Zero;
-                insect.SetState(new RandomState());
+                // TODO
+                // Randomly rotate while waiting for mouse input
+
+                if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+                {
+                    var target = WorldMap.GetNode(Raylib.GetMousePosition());
+                    
+                    insect.Target = target;
+                    insect.SetState(new PathfindingState());
+                }
+                else // For testing, automatically enter random state
+                {
+                    insect.Target = WorldMap.Graph[Raylib.GetRandomValue(0, WorldMap.Graph.Count - 1)];
+                    insect.SetState(new PathfindingState());
+                }
             }
         }
     }

@@ -19,6 +19,7 @@ namespace ConsoleApp1
                 //Raylib.DrawText("Hello, world!", 12, 12, 20, Color.BLACK);
 
                 // Update
+                Input.Update();
                 Spawner.Update();
                 EntityManager.Update();
 
@@ -38,7 +39,6 @@ namespace ConsoleApp1
             Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
 
             WorldMap.CreateGraph();
-            WorldMap.AStarSearch(new Node(0, 0, 0, 0), new Node(0, 0, 0, 0));
             Art.Load();
         }
 
