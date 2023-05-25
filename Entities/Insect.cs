@@ -5,11 +5,8 @@ using System.Numerics;
 
 namespace ConsoleApp1.Entities
 {
-    internal class Insect : Entity
+    internal class Insect : PathfindingEntity
     {
-        public float Speed = 150f;
-        public float Radius = 10; // used for circular collision detection
-        public Node? Target;
         public Insect(Texture2D texture, Vector2 position)
         {
             Texture = texture;
@@ -24,22 +21,6 @@ namespace ConsoleApp1.Entities
             var insect = new Insect(Art.Ant, position);
             insect.SetState(new IdleState());
             return insect;
-        }
-
-        public void ApplyMovementCost(int movementCost)
-        {
-            switch (movementCost)
-            {
-                case > 10:
-                    Speed = 100f;
-                    break;
-                case > 5:
-                    Speed = 150f;
-                    break;
-                default:
-                    Speed = 200f;
-                    break;
-            }
         }
 
         public override void Draw()

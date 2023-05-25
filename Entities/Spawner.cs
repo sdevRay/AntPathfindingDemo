@@ -16,7 +16,7 @@ namespace ConsoleApp1.Entities
 
                 EntityManager.Add(Environment.Food.CreatePizza(GetRandomSpawnPosition()));
 
-                foreach (int value in Enumerable.Range(1, 20))
+                foreach (int value in Enumerable.Range(1, 0))
                 {
                     EntityManager.Add(Insect.CreateAnt(GetRandomSpawnPosition()));
                 }

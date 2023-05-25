@@ -9,7 +9,8 @@ namespace ConsoleApp1.Entities
 		protected IState State = new IdleState();
 		protected Texture2D Texture;
 		public Vector2 Position, Velocity;
-		public float Rotation;
+        public float Rotation;
+        public float Radius = 10; // used for circular collision detection
 		public bool IsExpired; // true if the entity was destroyed and should be deleted
         
 		public Vector2 TextureSize { get { return new Vector2(Texture.width, Texture.height); } }

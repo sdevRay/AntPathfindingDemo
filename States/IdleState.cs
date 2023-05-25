@@ -23,18 +23,11 @@ namespace ConsoleApp1.States
                 // TODO
                 // Randomly rotate while waiting for mouse input
 
-                if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
-                {
-                    var target = WorldMap.GetNode(Raylib.GetMousePosition());
-                    
-                    insect.Target = target;
-                    insect.SetState(new PathfindingState());
-                }
-                else // For testing, automatically enter random state
-                {
-                    insect.Target = WorldMap.Graph[Raylib.GetRandomValue(0, WorldMap.Graph.Count - 1)];
-                    insect.SetState(new PathfindingState());
-                }
+
+                // For testing, automatically enter random node
+                var passable = WorldMap.Graph.Where(n => !n.Impassable);
+                insect.Target = passable.ElementAt(Raylib.GetRandomValue(0, passable.Count() - 1));
+                insect.SetState(new PathfindingState());
             }
         }
     }

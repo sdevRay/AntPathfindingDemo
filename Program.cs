@@ -38,8 +38,9 @@ namespace ConsoleApp1
             Raylib.InitWindow(1280, 720, "Ant Simulator");
             Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
 
-            WorldMap.CreateGraph();
             Art.Load();
+            WorldMap.CreateGraph();
+            EntityManager.Add(PlayerInsect.Instance);
         }
 
         public static void Dispose()

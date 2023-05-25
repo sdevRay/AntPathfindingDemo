@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ConsoleApp1.Entities;
+using ConsoleApp1.Pathfinding;
+using ConsoleApp1.States;
+using Raylib_cs;
 
 namespace ConsoleApp1
 {
@@ -10,7 +9,16 @@ namespace ConsoleApp1
     {
         public static void Update()
         {
-            // TODO
+            if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+            {
+                var target = WorldMap.GetNode(Raylib.GetMousePosition());
+
+                if (target != null)
+                {
+                    PlayerInsect.Instance.Target = target;
+                    PlayerInsect.Instance.SetState(new PathfindingState());
+                }
+            }
         }
     }
 }

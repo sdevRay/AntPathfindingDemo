@@ -12,6 +12,7 @@ namespace ConsoleApp1.States
         Node? _currentTarget;
         bool _pointTowardsTargetBool = true;
         bool _moveTowardsTargetBool = false;
+        private static readonly AStarSearch _search = new AStarSearch();
 
         private void SwapTowardsTarget()
         {
@@ -26,16 +27,21 @@ namespace ConsoleApp1.States
 
         public void Update(Entity entity)
         {
-            if (entity is Insect insect)
+            if (entity is PathfindingEntity pathfindingEntity)
             {
-                if (_firstRun && insect.Target is not null)
+                if(pathfindingEntity.Target is null)
                 {
-                    var startNode = WorldMap.GetStartingNode(insect);
-                    var goalNode = insect.Target;
+                    pathfindingEntity.Velocity = Vector2.Zero;
+                    pathfindingEntity.SetState(new IdleState());
+                }
+                else if (_firstRun)
+                {
+                    var startNode = WorldMap.GetStartingNode(pathfindingEntity);
+                    var goalNode = pathfindingEntity.Target;
 
                     if (startNode is not null && goalNode is not null)
                     {
-                        _path = WorldMap.GetPath(startNode, goalNode);
+                        _path = AStarSearch.GetPath(startNode, goalNode);
                     }
 
                     _firstRun = !_firstRun;
@@ -46,7 +52,7 @@ namespace ConsoleApp1.States
                     }
                     else
                     {
-                        // Set new state
+                        entity.SetState(new IdleState());
                     }
                 }
 
@@ -54,7 +60,7 @@ namespace ConsoleApp1.States
                 {
                     if (_pointTowardsTargetBool)
                     {
-                        if (EntityMathUtil.PointTowardsTarget(insect, _currentTarget.Centroid))
+                        if (EntityMathUtil.PointTowardsTarget(pathfindingEntity, _currentTarget.Centroid))
                         {
                             SwapTowardsTarget();
                         }
@@ -62,25 +68,19 @@ namespace ConsoleApp1.States
                     else if (_moveTowardsTargetBool)
                     {
                         //_time += Raylib.GetFrameTime();
-                        if (EntityMathUtil.MoveTowardsTarget(insect, _currentTarget.Centroid/*, _time, 0.1f*/))
+                        if (EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _currentTarget.Centroid/*, _time, 0.1f*/))
                         {
                             if (_path.TryPop(out Node? value))
                             {
-                                insect.ApplyMovementCost(_currentTarget.MovementCost);
+                                pathfindingEntity.ApplyMovementCost(_currentTarget.MovementCost);
                                 _currentTarget = value;
                                 SwapTowardsTarget();
                             }
                             else
                             {
-                                // Reset all node's colors back to default
-                                foreach (var node in WorldMap.Graph)
-                                {
-                                    node.Color = Raylib_cs.Color.BLACK;
-                                }
-
-                                insect.Velocity = Vector2.Zero;
-                                insect.Target = null;
-                                insect.SetState(new IdleState());
+                                pathfindingEntity.Velocity = Vector2.Zero;
+                                pathfindingEntity.Target = null;
+                                pathfindingEntity.SetState(new IdleState());
                             }
                         }
                     }
