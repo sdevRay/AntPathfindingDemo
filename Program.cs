@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Entities;
+using ConsoleApp1.Pathfinding;
 using Raylib_cs;
 
 namespace ConsoleApp1
@@ -17,10 +18,14 @@ namespace ConsoleApp1
 
                 //Raylib.DrawText("Hello, world!", 12, 12, 20, Color.BLACK);
 
-                // EntityManager
-                EntityManager.Update();
-                EntityManager.Draw();
+                // Update
+                Input.Update();
                 Spawner.Update();
+                EntityManager.Update();
+
+                // Draw
+                WorldMap.DrawGraph();
+                EntityManager.Draw();
 
                 Raylib.EndDrawing();
             }
@@ -34,6 +39,8 @@ namespace ConsoleApp1
             Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
 
             Art.Load();
+            WorldMap.CreateGraph();
+            EntityManager.Add(PlayerInsect.Instance);
         }
 
         public static void Dispose()
