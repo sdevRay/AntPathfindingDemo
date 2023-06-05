@@ -7,15 +7,13 @@ namespace ConsoleApp1.Entities
         public Node? Target;
         public float Speed = 150f;
 
-        public void ApplyMovementCost(int movementCost)
+        public void ApplyMovementCost(Node node)
         {
-            switch (movementCost)
+            // This keeps breaking if I try and make a corner 
+            switch (node.TerrainType)
             {
-                case >= 10:
+                case TerrainType.Dirt:
                     Speed = 75f;
-                    break;
-                case > 5:
-                    Speed = 150f;
                     break;
                 default:
                     Speed = 200f;

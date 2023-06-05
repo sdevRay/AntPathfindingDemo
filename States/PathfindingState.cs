@@ -1,5 +1,6 @@
 ﻿using ConsoleApp1.Entities;
 using ConsoleApp1.Pathfinding;
+using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.States
@@ -12,7 +13,6 @@ namespace ConsoleApp1.States
         Node? _currentTarget;
         bool _pointTowardsTargetBool = true;
         bool _moveTowardsTargetBool = false;
-        private static readonly AStarSearch _search = new AStarSearch();
 
         private void SwapTowardsTarget()
         {
@@ -42,9 +42,8 @@ namespace ConsoleApp1.States
                     if (startNode is not null && goalNode is not null)
                     {
                         _path = AStarSearch.GetPath(startNode, goalNode);
+                        _firstRun = !_firstRun;
                     }
-
-                    _firstRun = !_firstRun;
 
                     if (_path.TryPop(out Node? value))
                     {
@@ -52,7 +51,8 @@ namespace ConsoleApp1.States
                     }
                     else
                     {
-                        entity.SetState(new IdleState());
+                        pathfindingEntity.Velocity = Vector2.Zero;
+                        pathfindingEntity.SetState(new IdleState());
                     }
                 }
 
@@ -68,11 +68,15 @@ namespace ConsoleApp1.States
                     else if (_moveTowardsTargetBool)
                     {
                         //_time += Raylib.GetFrameTime();
+                        if(Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, _currentTarget.DestinationRectangle))
+                        {
+                            pathfindingEntity.ApplyMovementCost(_currentTarget);
+                        }
+
                         if (EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _currentTarget.Centroid/*, _time, 0.1f*/))
                         {
                             if (_path.TryPop(out Node? value))
                             {
-                                pathfindingEntity.ApplyMovementCost(_currentTarget.MovementCost);
                                 _currentTarget = value;
                                 SwapTowardsTarget();
                             }
@@ -80,7 +84,6 @@ namespace ConsoleApp1.States
                             {
                                 pathfindingEntity.Velocity = Vector2.Zero;
                                 pathfindingEntity.Target = null;
-                                pathfindingEntity.SetState(new IdleState());
                             }
                         }
                     }

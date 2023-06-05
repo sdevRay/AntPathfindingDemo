@@ -6,7 +6,7 @@ namespace ConsoleApp1
 {
     static class Program
     {
-        public static bool Debug = true;
+        public static bool Debug = false;
         public static void Main()
         {
             Initialize();

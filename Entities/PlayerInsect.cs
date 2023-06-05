@@ -18,11 +18,12 @@ namespace ConsoleApp1.Entities
 
         public PlayerInsect(Texture2D texture)
         {
-            var passableNodes = WorldMap.Graph.Where(n => !n.Impassable);
+            var passableNodes = WorldMap.GetPassableNodes();
             var randomPosition = passableNodes.ElementAt(Raylib.GetRandomValue(0, passableNodes.Count() - 1));
             Texture = texture;
             Position = new Vector2(randomPosition.DestinationRectangle.x, randomPosition.DestinationRectangle.y);
             Rotation = default;
+            Color = Color.YELLOW;
 
             Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"[{DateTime.Now.TimeOfDay}] [{nameof(Entity)}] {nameof(PlayerInsect)} created.");
         }

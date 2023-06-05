@@ -1,11 +1,5 @@
-﻿using ConsoleApp1.States;
-using Raylib_cs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Raylib_cs;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConsoleApp1.Entities
 {
@@ -13,7 +7,6 @@ namespace ConsoleApp1.Entities
     {
         public static bool PointTowardsTarget(Entity entity, Vector2 target)
         {
-
             entity.Velocity *= 0.1f;
 
             // Calculate the angle between the sprite and the target position using Atan2

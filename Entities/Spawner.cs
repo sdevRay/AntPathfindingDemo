@@ -1,4 +1,5 @@
-﻿using Raylib_cs;
+﻿using ConsoleApp1.Pathfinding;
+using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.Entities
@@ -27,7 +28,9 @@ namespace ConsoleApp1.Entities
 
         private static Vector2 GetRandomSpawnPosition()
         {
-            return new Vector2(Raylib.GetRandomValue(0, Raylib.GetScreenWidth()), Raylib.GetRandomValue(0, Raylib.GetScreenHeight()));
+            var passableNodes = WorldMap.GetPassableNodes();
+            var randomPosition = passableNodes.ElementAt(Raylib.GetRandomValue(0, passableNodes.Count() - 1));
+            return randomPosition.Centroid;
         }
     }
 }

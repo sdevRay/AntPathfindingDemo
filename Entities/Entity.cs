@@ -12,11 +12,12 @@ namespace ConsoleApp1.Entities
         public float Rotation;
         public float Radius = 10; // used for circular collision detection
 		public bool IsExpired; // true if the entity was destroyed and should be deleted
-        
+		public Color Color = Color.WHITE;
+
 		public Vector2 TextureSize { get { return new Vector2(Texture.width, Texture.height); } }
-		public Vector2 Origin { get { return new Vector2(Texture.width / 2, Texture.height / 2); } }
+		public Vector2 Origin { get { return new Vector2(Texture.width / 4, Texture.height / 4); } }
 		public Rectangle SourceRectangle { get { return new Rectangle(0, 0, Texture.width, Texture.height);  } }
-        public Rectangle DestinationRectangle { get { return new Rectangle(Position.X, Position.Y, Texture.width, Texture.height); } }
+        public Rectangle DestinationRectangle { get { return new Rectangle(Position.X, Position.Y, Texture.width / 2, Texture.height / 2); } }
 
         public abstract void Update();
 
@@ -24,7 +25,7 @@ namespace ConsoleApp1.Entities
 
 		public virtual void Draw()
 		{
-            Raylib.DrawTexturePro(Texture, SourceRectangle, DestinationRectangle, Origin, Rotation * (float)(180.0f / Math.PI), Color.WHITE);
+            Raylib.DrawTexturePro(Texture, SourceRectangle, DestinationRectangle, Origin, Rotation * (float)(180.0f / Math.PI), Color);
 		}
 	}
 }
