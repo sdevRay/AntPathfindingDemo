@@ -1,6 +1,4 @@
-﻿using ConsoleApp1.Pathfinding;
-using Raylib_cs;
-using System.Collections.Generic;
+﻿using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.Entities
@@ -76,48 +74,6 @@ namespace ConsoleApp1.Entities
                     _insects[i].Position -= collisionVector * 2f;
                     PlayerInsect.Instance.Position += collisionVector * 2f;
                 }
-            }
-
-            // Impassable node collision
-            foreach (var node in WorldMap.Graph.Where(n => n.Impassable))
-            {
-                foreach(var insect in _insects)
-                {
-                    var center = new Vector2(insect.DestinationRectangle.x + (insect.DestinationRectangle.width / 2), insect.DestinationRectangle.y + (insect.DestinationRectangle.height / 2));
-                    if (Raylib.CheckCollisionCircleRec(center, insect.Radius, node.DestinationRectangle))
-                    {
-
-                        Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"[{DateTime.Now.TimeOfDay}] Collision at [{node.Point}].");
-                    }
-                }
-
-                var playerAntCenter = new Vector2(PlayerInsect.Instance.DestinationRectangle.x + (PlayerInsect.Instance.DestinationRectangle.width / 2), PlayerInsect.Instance.DestinationRectangle.y + (PlayerInsect.Instance.DestinationRectangle.height / 2));
-                if (Raylib.CheckCollisionCircleRec(playerAntCenter, 5, node.DestinationRectangle))
-                {
-                    //Moving right
-                    if(PlayerInsect.Instance.Velocity.X > 0)
-                    {
-                        if (PlayerInsect.Instance.DestinationRectangle.x + PlayerInsect.Instance.DestinationRectangle.width >= node.DestinationRectangle.x) 
-                        {
-                            //PlayerInsect.Instance.Velocity = Vector2.Zero;
-                            PlayerInsect.Instance.Position.X = node.DestinationRectangle.x - PlayerInsect.Instance.DestinationRectangle.width;
-                        }
-
-                    }
-                    
-                    // Moving left
-                    if (PlayerInsect.Instance.Velocity.X < 0) 
-                    {
-                        if (PlayerInsect.Instance.DestinationRectangle.x <= node.DestinationRectangle.width)
-                        {
-                            //PlayerInsect.Instance.Velocity = Vector2.Zero;
-                            PlayerInsect.Instance.Position.X = PlayerInsect.Instance.DestinationRectangle.width;
-                        }
-                    }
-
-                    Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"[{DateTime.Now.TimeOfDay}] Collision at [{node.Point}].");
-                }
-
             }
         }
 

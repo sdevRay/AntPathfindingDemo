@@ -1,6 +1,7 @@
 ﻿using ConsoleApp1.Entities;
 using ConsoleApp1.Pathfinding;
 using Raylib_cs;
+using System.Numerics;
 
 namespace ConsoleApp1.States
 {
@@ -20,12 +21,16 @@ namespace ConsoleApp1.States
         {
             if (entity is Insect insect)
             {
+                // Stop the insect from moving
+                if(insect.Velocity != Vector2.Zero)
+                    insect.Velocity = Vector2.Zero;
+
                 // TODO
                 // Randomly rotate while waiting for mouse input
 
 
                 // For testing, automatically enter random node
-                var passable = WorldMap.Graph.Where(n => !n.Impassable);
+                var passable = WorldMap.GetPassableNodes();
                 insect.Target = passable.ElementAt(Raylib.GetRandomValue(0, passable.Count() - 1));
                 insect.SetState(new PathfindingState());
             }

@@ -1,10 +1,9 @@
-﻿using ConsoleApp1.States;
-using Raylib_cs;
+﻿using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.Entities
 {
-	internal class Environment
+    internal class Environment
 	{
 		public class Food : Entity
 		{

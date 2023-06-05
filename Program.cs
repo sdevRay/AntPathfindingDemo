@@ -6,7 +6,7 @@ namespace ConsoleApp1
 {
     static class Program
     {
-        public static bool Debug = true;
+        public static bool Debug = false;
         public static void Main()
         {
             Initialize();
@@ -35,7 +35,7 @@ namespace ConsoleApp1
 
         public static void Initialize()
         {
-            Raylib.InitWindow(1280, 720, "Ant Simulator");
+            Raylib.InitWindow(1920, 1080, "Ant Simulator");
             Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
 
             Art.Load();
