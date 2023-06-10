@@ -50,7 +50,7 @@ namespace ConsoleApp1.Entities
             entity.Rotation = (float)Math.Atan2(entity.Velocity.Y, entity.Velocity.X);
 
             // Target reached
-            return Vector2.Distance(entity.Position, target) < 10.0f;
+            return Vector2.Distance(entity.Position, target) < entity.Radius;
         }
     }
 }

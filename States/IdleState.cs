@@ -17,13 +17,22 @@ namespace ConsoleApp1.States
             //}
         }
 
+        private void StopVelocity(Entity entity)
+        {
+            if (entity.Velocity != Vector2.Zero)
+                entity.Velocity = Vector2.Zero;
+        }
+
         public void Update(Entity entity)
         {
-            if (entity is Insect insect)
+            if(entity is PlayerInsect playerInsect)
             {
-                // Stop the insect from moving
-                if(insect.Velocity != Vector2.Zero)
-                    insect.Velocity = Vector2.Zero;
+                StopVelocity(playerInsect);
+
+            }
+            else if (entity is Insect insect)
+            {
+                StopVelocity(insect);
 
                 // TODO
                 // Randomly rotate while waiting for mouse input

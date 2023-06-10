@@ -45,8 +45,8 @@ namespace ConsoleApp1.Pathfinding
             int x = 0;
             int y = 0;
 
-            int width = 20;
-            int height = 20;
+            int width = 15;
+            int height = 15;
 
             var pixelBoundWidth = Raylib.GetScreenWidth() / width;
             var pixelBoundHeight = Raylib.GetScreenHeight() / height;
@@ -80,8 +80,8 @@ namespace ConsoleApp1.Pathfinding
             foreach (var node in Graph)
             {
                 Raylib.DrawTexture(node.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, Raylib_cs.Color.WHITE);
-                Raylib.DrawText(node.Point.ToString(), (int)node.DestinationRectangle.x + 5, (int)node.DestinationRectangle.y + 5, 12, node.Color);
-                Raylib.DrawText(node.MovementCost.ToString(), (int)node.DestinationRectangle.x + 10, (int)node.DestinationRectangle.y + 20, 20, node.Color);
+                //Raylib.DrawText(node.Point.ToString(), (int)node.DestinationRectangle.x + 5, (int)node.DestinationRectangle.y + 5, 12, node.Color);
+                //Raylib.DrawText(node.MovementCost.ToString(), (int)node.DestinationRectangle.x + 10, (int)node.DestinationRectangle.y + 20, 20, node.Color);
             }
         }
     }
