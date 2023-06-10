@@ -9,17 +9,29 @@ namespace ConsoleApp1
         public static bool Debug = false;
         public static void Main()
         {
-            Initialize();
+            // Initialize
+            Raylib.InitWindow(1280, 720, "Ant Simulator");
+            Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
+
+            Art.Load();
+            WorldMap.CreateGraph();
+            EntityManager.Add(PlayerInsect.Instance);
+
+            var camera = WorldCamera.GetCamera();
 
             while (!Raylib.WindowShouldClose())
             {
+
                 Raylib.BeginDrawing();
-                Raylib.ClearBackground(Color.WHITE);
+                Raylib.ClearBackground(Color.GREEN);
+                WorldCamera.Begin2D(ref camera);
 
                 //Raylib.DrawText("Hello, world!", 12, 12, 20, Color.BLACK);
 
                 // Update
-                Input.Update();
+                WorldCamera.Update(ref camera);
+                WorldCamera.UpdateCameraCenterSmoothFollow(ref camera, Raylib.GetFrameTime(), Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
+                Input.Update(ref camera);
                 Spawner.Update();
                 EntityManager.Update();
 
@@ -27,26 +39,13 @@ namespace ConsoleApp1
                 WorldMap.DrawGraph();
                 EntityManager.Draw();
 
+                WorldCamera.End2D();
                 Raylib.EndDrawing();
             }
 
-            Dispose();
-        }
-
-        public static void Initialize()
-        {
-            Raylib.InitWindow(1280, 720, "Ant Simulator");
-            Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
-
-            Art.Load();
-            WorldMap.CreateGraph();
-            EntityManager.Add(PlayerInsect.Instance);
-        }
-
-        public static void Dispose()
-        {
+            // Dispose
             Art.Unload();
             Raylib.CloseWindow();
-        }
+        }       
     }
 }

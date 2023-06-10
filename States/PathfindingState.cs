@@ -1,18 +1,18 @@
 ﻿using ConsoleApp1.Entities;
 using ConsoleApp1.Pathfinding;
 using Raylib_cs;
-using System.Numerics;
 
 namespace ConsoleApp1.States
 {
     internal class PathfindingState : IState
     {
         bool _firstRun = true;
-        float _time;
+        //float _time;
         Stack<Node?> _path = new();
         Node? _currentTarget;
         bool _pointTowardsTargetBool = true;
         bool _moveTowardsTargetBool = false;
+        //float amplitude = 0.5f;
 
         private void SwapTowardsTarget()
         {
@@ -31,7 +31,6 @@ namespace ConsoleApp1.States
             {
                 if(pathfindingEntity.Target is null)
                 {
-                    pathfindingEntity.Velocity = Vector2.Zero;
                     pathfindingEntity.SetState(new IdleState());
                 }
                 else if (_firstRun)
@@ -51,7 +50,6 @@ namespace ConsoleApp1.States
                     }
                     else
                     {
-                        pathfindingEntity.Velocity = Vector2.Zero;
                         pathfindingEntity.SetState(new IdleState());
                     }
                 }
@@ -68,12 +66,14 @@ namespace ConsoleApp1.States
                     else if (_moveTowardsTargetBool)
                     {
                         //_time += Raylib.GetFrameTime();
+                        
+                        // Check the movementCost of the terrain
                         if(Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, _currentTarget.DestinationRectangle))
                         {
                             pathfindingEntity.ApplyMovementCost(_currentTarget);
                         }
 
-                        if (EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _currentTarget.Centroid/*, _time, 0.1f*/))
+                        if (EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _currentTarget.Centroid/*, _time, amplitude*/))
                         {
                             if (_path.TryPop(out Node? value))
                             {
@@ -82,7 +82,6 @@ namespace ConsoleApp1.States
                             }
                             else
                             {
-                                pathfindingEntity.Velocity = Vector2.Zero;
                                 pathfindingEntity.Target = null;
                             }
                         }

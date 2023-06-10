@@ -2,16 +2,20 @@
 using ConsoleApp1.Pathfinding;
 using ConsoleApp1.States;
 using Raylib_cs;
+using System.Numerics;
 
 namespace ConsoleApp1
 {
     internal static class Input
     {
-        public static void Update()
+        public static void Update(ref Camera2D camera)
         {
             if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
             {
-                var target = WorldMap.GetNode(Raylib.GetMousePosition());
+                var mousePos = Raylib.GetMousePosition();
+                Vector2 screenPos = Raylib.GetScreenToWorld2D(new Vector2(mousePos.X, mousePos.Y), camera);
+
+                var target = WorldMap.GetNode(screenPos);
 
                 if (target != null)
                 {
