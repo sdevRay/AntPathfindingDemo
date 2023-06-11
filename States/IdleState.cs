@@ -17,7 +17,7 @@ namespace ConsoleApp1.States
             //}
         }
 
-        private void StopVelocity(Entity entity)
+        private static void StopVelocity(Entity entity)
         {
             if (entity.Velocity != Vector2.Zero)
                 entity.Velocity = Vector2.Zero;

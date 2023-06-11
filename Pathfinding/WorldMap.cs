@@ -71,8 +71,8 @@ namespace ConsoleApp1.Pathfinding
 
         public static Node? GetNode(Vector2 position)
         {
-            var passableNodes = GetPassableNodes();
-            return passableNodes.FirstOrDefault(n => Raylib.CheckCollisionPointRec(position, n.DestinationRectangle));
+            //var passableNodes = GetPassableNodes();
+            return /*passableNodes*/Graph.FirstOrDefault(n => Raylib.CheckCollisionPointRec(position, n.DestinationRectangle));
         }
 
         public static void DrawGraph()
