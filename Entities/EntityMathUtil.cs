@@ -7,8 +7,6 @@ namespace ConsoleApp1.Entities
     {
         public static bool PointTowardsTarget(Entity entity, Vector2 target)
         {
-            entity.Velocity *= 0.1f;
-
             // Calculate the angle between the sprite and the target position using Atan2
             float angleToTarget = (float)Math.Atan2(target.Y - entity.Position.Y, target.X - entity.Position.X);
 
@@ -27,7 +25,7 @@ namespace ConsoleApp1.Entities
             entity.Rotation += shortestAngle * 10f * Raylib.GetFrameTime();
 
             // If the sprite is facing the target position
-            return (Math.Abs(shortestAngle) < 0.1f);
+            return (Math.Abs(shortestAngle) < 0.5f);
         }
 
         //time += Raylib.GetFrameTime();

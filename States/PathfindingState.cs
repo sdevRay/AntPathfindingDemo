@@ -6,34 +6,38 @@ namespace ConsoleApp1.States
 {
     internal class PathfindingState : IState
     {
-        bool _firstRun = true;
         //float _time;
+        //float amplitude = 0.5f;
         Stack<Node?> _path = new();
         Node? _currentTarget;
-        bool _pointTowardsTargetBool = true;
-        bool _moveTowardsTargetBool = false;
-        //float amplitude = 0.5f;
-
-        private void SwapTowardsTarget()
-        {
-            _pointTowardsTargetBool = !_pointTowardsTargetBool;
-            _moveTowardsTargetBool = !_moveTowardsTargetBool;
-        }
+        bool _shouldSetTarget = true;
 
         public void HandleAction(Entity entity, Actions action)
         {
             throw new NotImplementedException();
         }
 
+        private void SetTarget(PathfindingEntity pathfindingEntity)
+        {
+            if (_path.TryPop(out Node? value))
+            {
+                _currentTarget = value;
+            }
+            else
+            {
+                pathfindingEntity.Target = null;
+            }
+        }
+
         public void Update(Entity entity)
         {
             if (entity is PathfindingEntity pathfindingEntity)
             {
-                if(pathfindingEntity.Target is null)
+                if (pathfindingEntity.Target is null)
                 {
                     pathfindingEntity.SetState(new IdleState());
                 }
-                else if (_firstRun)
+                else if (_shouldSetTarget)
                 {
                     var startNode = WorldMap.GetStartingNode(pathfindingEntity);
                     var goalNode = pathfindingEntity.Target;
@@ -41,50 +45,25 @@ namespace ConsoleApp1.States
                     if (startNode is not null && goalNode is not null)
                     {
                         _path = AStarSearch.GetPath(startNode, goalNode);
-                        _firstRun = !_firstRun;
+                        _shouldSetTarget = !_shouldSetTarget;
                     }
 
-                    if (_path.TryPop(out Node? value))
-                    {
-                        _currentTarget = value;
-                    }
-                    else
-                    {
-                        pathfindingEntity.SetState(new IdleState());
-                    }
+                    SetTarget(pathfindingEntity);
                 }
-
-                if (_currentTarget is not null)
+                else
                 {
-                    if (_pointTowardsTargetBool)
-                    {
-                        if (EntityMathUtil.PointTowardsTarget(pathfindingEntity, _currentTarget.Centroid))
-                        {
-                            SwapTowardsTarget();
-                        }
-                    }
-                    else if (_moveTowardsTargetBool)
-                    {
-                        //_time += Raylib.GetFrameTime();
-                        
-                        // Check the movementCost of the terrain
-                        if(Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, _currentTarget.DestinationRectangle))
-                        {
-                            pathfindingEntity.ApplyMovementCost(_currentTarget);
-                        }
+                    //_time += Raylib.GetFrameTime();
 
-                        if (EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _currentTarget.Centroid/*, _time, amplitude*/))
-                        {
-                            if (_path.TryPop(out Node? value))
-                            {
-                                _currentTarget = value;
-                                SwapTowardsTarget();
-                            }
-                            else
-                            {
-                                pathfindingEntity.Target = null;
-                            }
-                        }
+                    // Check the movementCost of the terrain
+                    if (Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, _currentTarget.DestinationRectangle))
+                    {
+                        pathfindingEntity.ApplyMovementCost(_currentTarget);
+                    }
+
+                    if (EntityMathUtil.PointTowardsTarget(pathfindingEntity, _currentTarget.Centroid) 
+                        && EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _currentTarget.Centroid/*, _time, amplitude*/))
+                    {
+                        SetTarget(pathfindingEntity);
                     }
                 }
             }
