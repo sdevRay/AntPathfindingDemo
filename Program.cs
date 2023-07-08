@@ -16,6 +16,7 @@ namespace ConsoleApp1
             Art.Load();
             WorldMap.CreateGraph();
             EntityManager.Add(PlayerInsect.Instance);
+            EntityManager.Add(Food.CreatePizza(WorldMap.GetRandomNode().PixelOrigion));
 
             var camera = WorldCamera.GetCamera();
 
@@ -23,16 +24,13 @@ namespace ConsoleApp1
             {
 
                 Raylib.BeginDrawing();
-                Raylib.ClearBackground(Color.GREEN);
+                Raylib.ClearBackground(Color.DARKBROWN);
                 WorldCamera.Begin2D(ref camera);
-
-                //Raylib.DrawText("Hello, world!", 12, 12, 20, Color.BLACK);
 
                 // Update
                 WorldCamera.Update(ref camera);
                 WorldCamera.UpdateCameraCenterSmoothFollow(ref camera, Raylib.GetFrameTime(), Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
                 Input.Update(ref camera);
-                Spawner.Update();
                 EntityManager.Update();
 
                 // Draw

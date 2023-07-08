@@ -5,37 +5,20 @@ using System.Numerics;
 
 namespace ConsoleApp1.Entities
 {
-    internal class Insect : PathfindingEntity
+    internal class Insect : Entity
     {
         public Insect(Texture2D texture, Vector2 position)
         {
             Texture = texture;
-            Position = position;
-            Rotation = default;
-
+            Position = new Vector2(position.X + texture.width / 2, position.Y + texture.height / 2);
             Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"[{DateTime.Now.TimeOfDay}] [{nameof(Entity)}] {nameof(Insect)} created.");
         }
 
         public static Insect CreateAnt(Vector2 position)
         {
             var insect = new Insect(Art.Ant, position);
-            insect.SetState(new IdleState());
+            insect.SetState(new PathfindingState(insect, WorldMap.GetRandomNode()));
             return insect;
-        }
-
-        public override void Draw()
-        {
-            if (Program.Debug)
-            {
-                Raylib.DrawText(State.GetType().ToString(), (int)Position.X, (int)Position.Y, 10, Color.BLACK);
-                Raylib.DrawText(Speed.ToString(), (int)Position.X + 15, (int)Position.Y + 15, 15, Color.BLACK);
-                if (Target != null)
-                {
-                    Raylib.DrawLineV(Position, Target.Centroid, Color.RED);
-                }
-            }
-
-            base.Draw();
         }
 
         public override void Update()

@@ -6,65 +6,52 @@ namespace ConsoleApp1.States
 {
     internal class PathfindingState : IState
     {
-        //float _time;
-        //float amplitude = 0.5f;
         Stack<Node?> _path = new();
-        Node? _currentTarget;
-        bool _shouldSetTarget = true;
+        Node? _target = null;
+
+        public PathfindingState(Entity pathfindingEntity, Node? target)
+        {
+            _target = target;
+
+            if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? startNode) && _target is not null)
+            {
+                _path = AStarSearch.GetPath(startNode, _target);
+            }
+
+            SetNextTarget(pathfindingEntity);
+        }
 
         public void HandleAction(Entity entity, Actions action)
         {
             throw new NotImplementedException();
         }
 
-        private void SetTarget(PathfindingEntity pathfindingEntity)
+        private void SetNextTarget(Entity pathfindingEntity)
         {
-            if (_path.TryPop(out Node? value))
+            if (_path.TryPop(out Node? newTarget))
             {
-                _currentTarget = value;
+                _target = newTarget;
             }
             else
             {
-                pathfindingEntity.Target = null;
+                pathfindingEntity.SetState(new IdleState());
             }
         }
 
-        public void Update(Entity entity)
+        public void Update(Entity pathfindingEntity)
         {
-            if (entity is PathfindingEntity pathfindingEntity)
+            if (_target is not null)
             {
-                if (pathfindingEntity.Target is null)
+                //Check the movementCost of the terrain
+                if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? occupiedNode) && Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, occupiedNode.DestinationRectangle))
                 {
-                    pathfindingEntity.SetState(new IdleState());
+                    pathfindingEntity.Speed = Terrain.ApplyMovementCost(occupiedNode);
                 }
-                else if (_shouldSetTarget)
+
+                if (EntityMathUtil.RotateTowardsTarget(pathfindingEntity, _target.PixelOrigion)
+                    && EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _target.PixelOrigion))
                 {
-                    var startNode = WorldMap.GetStartingNode(pathfindingEntity);
-                    var goalNode = pathfindingEntity.Target;
-
-                    if (startNode is not null && goalNode is not null)
-                    {
-                        _path = AStarSearch.GetPath(startNode, goalNode);
-                        _shouldSetTarget = !_shouldSetTarget;
-                    }
-
-                    SetTarget(pathfindingEntity);
-                }
-                else
-                {
-                    //_time += Raylib.GetFrameTime();
-
-                    // Check the movementCost of the terrain
-                    if (Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, _currentTarget.DestinationRectangle))
-                    {
-                        pathfindingEntity.ApplyMovementCost(_currentTarget);
-                    }
-
-                    if (EntityMathUtil.PointTowardsTarget(pathfindingEntity, _currentTarget.Centroid) 
-                        && EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _currentTarget.Centroid/*, _time, amplitude*/))
-                    {
-                        SetTarget(pathfindingEntity);
-                    }
+                    SetNextTarget(pathfindingEntity);
                 }
             }
         }

@@ -2,9 +2,9 @@
 
 namespace ConsoleApp1.States
 {
-    internal interface IState
+    public interface IState
     {
-        void HandleAction(Entity entity, Actions action);
-        void Update(Entity entity);
+        public void HandleAction(Entity entity, Actions action);
+        public void Update(Entity entity);
     }
 }

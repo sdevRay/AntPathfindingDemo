@@ -7,7 +7,7 @@ namespace ConsoleApp1.Entities
     {
         static List<Entity> _entities = new();
         static List<Insect> _insects = new();
-        public static List<Environment.Food> Foods = new();
+        public static List<Food> Foods = new();
 
         public static void Add(Entity entity)
         {
@@ -18,7 +18,7 @@ namespace ConsoleApp1.Entities
                 _insects.Add(insect);
             }
 
-            if (entity is Environment.Food food)
+            if (entity is Food food)
             {
                 Foods.Add(food);
             }
