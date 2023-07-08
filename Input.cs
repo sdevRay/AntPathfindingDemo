@@ -15,13 +15,16 @@ namespace ConsoleApp1
                 var mousePos = Raylib.GetMousePosition();
                 Vector2 screenPos = Raylib.GetScreenToWorld2D(new Vector2(mousePos.X, mousePos.Y), camera);
 
-                var target = WorldMap.GetNode(screenPos);
-
-                if (target != null)
+                if (WorldMap.TryGetNode(screenPos, out Node? target))
                 {
-                    PlayerInsect.Instance.Target = target;
-                    PlayerInsect.Instance.SetState(new PathfindingState());
+                    PlayerInsect.Instance.SetState(new PathfindingState(PlayerInsect.Instance, target));
                 }
+
+            }
+
+            if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
+            {
+                EntityManager.Add(Insect.CreateAnt(PlayerInsect.Instance.Position));
             }
         }
     }

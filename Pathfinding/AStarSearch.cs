@@ -3,6 +3,7 @@ using System.Drawing;
 
 namespace ConsoleApp1.Pathfinding
 {
+    // https://www.redblobgames.com/pathfinding/a-star/introduction.html
     public class AStarSearch
     {
         private enum Directions
@@ -110,7 +111,7 @@ namespace ConsoleApp1.Pathfinding
                                 var points = neighborsCoordinates
                                     .Where(c => c.Direction == Directions.TopMiddle || c.Direction == Directions.Left)
                                     .Select(c => c.Point);
-                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Impassable))
+                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Terrain.Impassable))
                                 {
                                     continue;
                                 }
@@ -123,7 +124,7 @@ namespace ConsoleApp1.Pathfinding
                                 var points = neighborsCoordinates
                                     .Where(c => c.Direction == Directions.TopMiddle || c.Direction == Directions.Right)
                                     .Select(c => c.Point);
-                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Impassable))
+                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Terrain.Impassable))
                                 {
                                     continue;
                                 }
@@ -136,7 +137,7 @@ namespace ConsoleApp1.Pathfinding
                                 var points = neighborsCoordinates
                                     .Where(c => c.Direction == Directions.Left || c.Direction == Directions.BottomMiddle)
                                     .Select(c => c.Point);
-                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Impassable))
+                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Terrain.Impassable))
                                 {
                                     continue;
                                 }
@@ -149,7 +150,7 @@ namespace ConsoleApp1.Pathfinding
                                 var points = neighborsCoordinates
                                     .Where(c => c.Direction == Directions.Right || c.Direction == Directions.BottomMiddle)
                                     .Select(c => c.Point);
-                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Impassable))
+                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Terrain.Impassable))
                                 {
                                     continue;
                                 }
@@ -166,7 +167,7 @@ namespace ConsoleApp1.Pathfinding
 
         private static float GetMovementCost(Node current, Node next)
         {
-            return current.MovementCost + next.MovementCost;
+            return current.Terrain.MovementCost + next.Terrain.MovementCost;
         }
 
         private static int GetHeuristic(Node goal, Node next)

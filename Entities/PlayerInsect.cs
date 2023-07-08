@@ -4,28 +4,24 @@ using System.Numerics;
 
 namespace ConsoleApp1.Entities
 {
-    internal class PlayerInsect : PathfindingEntity
+    internal class PlayerInsect : Entity
     {
         private static PlayerInsect? _instance;
         public static PlayerInsect Instance
         {
             get
             {
-                _instance ??= new PlayerInsect(Art.Ant);
+                _instance ??= new PlayerInsect(Art.Ant, WorldMap.GetRandomNode().PixelOrigion);
                 return _instance;
             }
         }
 
-        public PlayerInsect(Texture2D texture)
+        public PlayerInsect(Texture2D texture, Vector2 position)
         {
-            var passableNodes = WorldMap.GetPassableNodes();
-            var randomPosition = passableNodes.ElementAt(Raylib.GetRandomValue(0, passableNodes.Count() - 1));
             Texture = texture;
-            Position = new Vector2(randomPosition.DestinationRectangle.x, randomPosition.DestinationRectangle.y);
-            Rotation = default;
+            Position = position;
             Color = Color.YELLOW;
-
-            Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"[{DateTime.Now.TimeOfDay}] [{nameof(Entity)}] {nameof(PlayerInsect)} created.");
+            Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"[{DateTime.Now.TimeOfDay}] [{nameof(Entity)}] {nameof(PlayerInsect)} created.");         
         }
 
         public override void Update()
