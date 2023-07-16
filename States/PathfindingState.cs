@@ -6,14 +6,16 @@ namespace ConsoleApp1.States
 {
     internal class PathfindingState : IState
     {
-        Stack<Node?> _path = new();
+        readonly Stack<Node?> _path = new();
         Node? _target = null;
 
         public PathfindingState(Entity pathfindingEntity, Node? target)
         {
             _target = target;
 
-            if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? startNode) && _target is not null)
+            if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? startNode) 
+                && startNode is not null 
+                && _target is not null)
             {
                 _path = AStarSearch.GetPath(startNode, _target);
             }
@@ -34,6 +36,7 @@ namespace ConsoleApp1.States
             }
             else
             {
+                _target = null;
                 pathfindingEntity.SetState(new IdleState());
             }
         }
@@ -43,7 +46,9 @@ namespace ConsoleApp1.States
             if (_target is not null)
             {
                 //Check the movementCost of the terrain
-                if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? occupiedNode) && Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, occupiedNode.DestinationRectangle))
+                if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? occupiedNode) 
+                    && occupiedNode is not null 
+                    && Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, occupiedNode.DestinationRectangle))
                 {
                     pathfindingEntity.Speed = Terrain.ApplyMovementCost(occupiedNode);
                 }

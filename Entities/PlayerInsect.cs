@@ -20,7 +20,7 @@ namespace ConsoleApp1.Entities
         {
             Texture = texture;
             Position = position;
-            Color = Color.YELLOW;
+            Color = Color.WHITE;
             Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"[{DateTime.Now.TimeOfDay}] [{nameof(Entity)}] {nameof(PlayerInsect)} created.");         
         }
 

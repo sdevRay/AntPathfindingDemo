@@ -1,12 +1,12 @@
-﻿using Raylib_cs;
+﻿using ConsoleApp1.Entities;
+using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.Pathfinding
 {
     internal class WorldMap
     {
-        public static List<Node> Graph = new List<Node>();
-
+        public static List<Node> Graph = new();
         public static IEnumerable<Node> GetPassableNodes() { return Graph.Where(n => !n.Terrain.Impassable); }
         private static void AddNode(int x, int y, int pixelBoundWidth, int pixelBoundHeight)
         {   
@@ -63,7 +63,7 @@ namespace ConsoleApp1.Pathfinding
             foreach (var node in Graph)
             {
                 Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, Raylib_cs.Color.WHITE);
-                Raylib.DrawText(node.Point.ToString(), (int)node.DestinationRectangle.x + 5, (int)node.DestinationRectangle.y + 5, 12, node.Color);
+                Raylib.DrawText("Ant count" + EntityManager.Insects.Count, -50, -50, 50, Raylib_cs.Color.WHITE);
             }
         }
     }

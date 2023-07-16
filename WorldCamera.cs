@@ -21,13 +21,13 @@ namespace ConsoleApp1
         {
             camera.zoom += ((float)Raylib.GetMouseWheelMove() * 0.05f);
 
-            if (camera.zoom > 3.0f)
+            if (camera.zoom > 2f)
             {
-                camera.zoom = 3.0f;
+                camera.zoom = 2f;
             }
-            else if (camera.zoom < 0.25f)
+            else if (camera.zoom < 0.75f)
             {
-                camera.zoom = 0.25f;
+                camera.zoom = 0.75f;
             }
         }
 

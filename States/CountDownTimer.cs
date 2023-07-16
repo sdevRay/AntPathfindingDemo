@@ -2,20 +2,19 @@
 
 namespace ConsoleApp1.States
 {
+    // usage
+    //if (!_timer.IsComplete())
+    //{
+    //// Code here
+    //_timer.Update();
+    //}
+    //else
+    //{
+    //_timer = new Timer((float) Raylib.GetRandomValue(0, 3));
+    //}
 
     internal struct CountdownTimer
     {
-        // usage
-        //if (!_timer.IsComplete())
-        //{
-        //// Code here
-        //_timer.Update();
-        //}
-        //else
-        //{
-        //_timer = new Timer((float) Raylib.GetRandomValue(0, 3));
-        //}
-
         private float _lifeTime;
         private float _backingLifeTime { get; }
 
@@ -36,11 +35,6 @@ namespace ConsoleApp1.States
         public void Reset()
         {
             _lifeTime = _backingLifeTime;
-        }
-
-        public float GetTimeLeft()
-        {
-            return _lifeTime;
         }
 
         public bool IsComplete()

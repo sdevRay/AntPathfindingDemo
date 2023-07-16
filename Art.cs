@@ -19,8 +19,6 @@ namespace ConsoleApp1
             Mud = Raylib.LoadTexture("Assets/mud.png");
         }
 
-        // Will more then one instance be able to use this texture?
-        // Should the entity itself unload the texture?
         public static void Unload()
 		{
 			Raylib.UnloadTexture(Ant);

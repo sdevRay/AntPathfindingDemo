@@ -1,4 +1,5 @@
-﻿using Raylib_cs;
+﻿using ConsoleApp1.Pathfinding;
+using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.Entities
@@ -6,8 +7,8 @@ namespace ConsoleApp1.Entities
     static class EntityManager
     {
         static List<Entity> _entities = new();
-        static List<Insect> _insects = new();
-        public static List<Food> Foods = new();
+        public static List<Insect> Insects = new();
+        static List<Food> _foods = new();
 
         public static void Add(Entity entity)
         {
@@ -15,12 +16,12 @@ namespace ConsoleApp1.Entities
 
             if (entity is Insect insect)
             {
-                _insects.Add(insect);
+                Insects.Add(insect);
             }
 
             if (entity is Food food)
             {
-                Foods.Add(food);
+                _foods.Add(food);
             }
         }
 
@@ -34,45 +35,54 @@ namespace ConsoleApp1.Entities
             }
 
             _entities = _entities.Where(entity => !entity.IsExpired).ToList();
-            Foods = Foods.Where(entity => !entity.IsExpired).ToList();
-            _insects = _insects.Where(entity => !entity.IsExpired).ToList();
+            _foods = _foods.Where(entity => !entity.IsExpired).ToList();
+            Insects = Insects.Where(entity => !entity.IsExpired).ToList();
         }
 
         public static void HandleCollisions()
         {
             // Insect on insect collision
-            for (int i = 0; i < _insects.Count; i++)
+            for (int i = 0; i < Insects.Count; i++)
             {
-                for (int j = i + 1; j < _insects.Count; j++)
+                for (int j = i + 1; j < Insects.Count; j++)
                 {
                     // If the sprites are colliding, bump them away from each other
-                    if (Raylib.CheckCollisionCircles(_insects[i].Position, _insects[i].Radius, _insects[j].Position, _insects[j].Radius))
+                    if (Raylib.CheckCollisionCircles(Insects[i].Position, Insects[i].Radius, Insects[j].Position, Insects[j].Radius))
                     {
                         // Calculate the vector between the two sprites
-                        Vector2 collisionVector = _insects[j].Position - _insects[i].Position;
+                        Vector2 collisionVector = Insects[j].Position - Insects[i].Position;
                         collisionVector = Vector2.Normalize(collisionVector);
 
                         // Move the sprites apart along the collision vector
-                        _insects[i].Position -= collisionVector * 2f;
-                        _insects[j].Position += collisionVector * 2f;
+                        Insects[i].Position -= collisionVector * 2f;
+                        Insects[j].Position += collisionVector * 2f;
 
                     }
                 }
             }
             
             // Insect on player collision
-            for (int i = 0; i < _insects.Count; i++)
+            for (int i = 0; i < Insects.Count; i++)
             {
                 // If the sprites are colliding, bump them away from each other
-                if (Raylib.CheckCollisionCircles(_insects[i].Position, _insects[i].Radius, PlayerInsect.Instance.Position, PlayerInsect.Instance.Radius))
+                if (Raylib.CheckCollisionCircles(Insects[i].Position, Insects[i].Radius, PlayerInsect.Instance.Position, PlayerInsect.Instance.Radius))
                 {
                     // Calculate the vector between the two sprites
-                    Vector2 collisionVector = PlayerInsect.Instance.Position - _insects[i].Position;
+                    Vector2 collisionVector = PlayerInsect.Instance.Position - Insects[i].Position;
                     collisionVector = Vector2.Normalize(collisionVector);
 
                     // Move the sprites apart along the collision vector
-                    _insects[i].Position -= collisionVector * 2f;
+                    Insects[i].Position -= collisionVector * 2f;
                     PlayerInsect.Instance.Position += collisionVector * 2f;
+                }
+            }
+
+            for(int i = 0; i < _foods.Count; i++)
+            {
+                if(Raylib.CheckCollisionCircles(_foods[i].Position, _foods[i].Radius, PlayerInsect.Instance.Position, PlayerInsect.Instance.Radius))
+                {
+                    var randomNode = WorldMap.GetRandomNode();
+                    _foods[i].Position = randomNode.PixelOrigion;
                 }
             }
         }

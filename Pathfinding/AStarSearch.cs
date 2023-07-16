@@ -1,5 +1,4 @@
-﻿using System.Data.SqlTypes;
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace ConsoleApp1.Pathfinding
 {
@@ -18,35 +17,18 @@ namespace ConsoleApp1.Pathfinding
             Left,
         }
 
-        private struct NeighborCoordinate : INullable
+        private static IDictionary<Point, Directions> NeighborCoordinateMapping(Node node)
         {
-            public Directions Direction { get; }
-            public Point Point { get; }
-
-            public bool IsNull { get { return !_initialized; } }
-
-            private bool _initialized { get; set; } = false;
-
-            public NeighborCoordinate(Directions direction, Point point)
+            return new Dictionary<Point, Directions>()
             {
-                _initialized = !_initialized;
-                Direction = direction;
-                Point = point;
-            }
-        }
-
-        static IEnumerable<NeighborCoordinate> GetNeighborsCoordinates(Node current)
-        {
-            return new List<NeighborCoordinate>()
-            {
-                new NeighborCoordinate(Directions.TopLeft, new Point(current.Point.X + 1, current.Point.Y - 1)),
-                new NeighborCoordinate(Directions.TopMiddle, new Point(current.Point.X + 1, current.Point.Y)),
-                new NeighborCoordinate(Directions.TopRight, new Point(current.Point.X + 1, current.Point.Y + 1)),
-                new NeighborCoordinate(Directions.Right, new Point(current.Point.X, current.Point.Y + 1)),
-                new NeighborCoordinate(Directions.BottomRight, new Point(current.Point.X - 1, current.Point.Y + 1)),
-                new NeighborCoordinate(Directions.BottomMiddle, new Point(current.Point.X - 1, current.Point.Y)),
-                new NeighborCoordinate(Directions.BottomLeft, new Point(current.Point.X - 1, current.Point.Y - 1)),
-                new NeighborCoordinate(Directions.Left, new Point(current.Point.X, current.Point.Y - 1))
+                { new Point(node.Point.X + 1, node.Point.Y - 1), Directions.TopLeft },
+                { new Point(node.Point.X + 1, node.Point.Y), Directions.TopMiddle },
+                { new Point(node.Point.X + 1, node.Point.Y + 1), Directions.TopRight },
+                { new Point(node.Point.X, node.Point.Y + 1), Directions.Right },
+                { new Point(node.Point.X - 1, node.Point.Y + 1), Directions.BottomRight },
+                { new Point(node.Point.X - 1, node.Point.Y), Directions.BottomMiddle },
+                { new Point(node.Point.X - 1, node.Point.Y - 1), Directions.BottomLeft },
+                { new Point(node.Point.X, node.Point.Y - 1), Directions.Left }
             };
         }
 
@@ -75,7 +57,7 @@ namespace ConsoleApp1.Pathfinding
                 foreach (var (next, corner) in GetNeighbors(current))
                 {
                     // Plus two movement cost for a diagonal move
-                    // This makes it cost more like mud to prevent entity from only choosing angle movements
+                    // This makes it cost more to prevent entity from only choosing angle movements
                     var new_cost = cost_so_far[current] + GetMovementCost(current, next) + (corner ? 2 : 0);
                     if (!cost_so_far.ContainsKey(next) || new_cost < cost_so_far[next])
                     {
@@ -93,76 +75,76 @@ namespace ConsoleApp1.Pathfinding
 
         private static IEnumerable<(Node neighbor, bool isCorner)> GetNeighbors(Node current)
         {
-            var neighborsCoordinates = GetNeighborsCoordinates(current);
-            var graph = WorldMap.GetPassableNodes();
+            var neighborsDict = NeighborCoordinateMapping(current);
 
-            // Find points and multiply new movement cost
-            foreach (var node in graph)
+            IEnumerable<(Directions direction, Node node) > GetNodeNeighbors()
             {
-                var nodeCoordinate = neighborsCoordinates.Where(n => n.Point.Equals(node.Point)).FirstOrDefault();
-                if (!nodeCoordinate.IsNull) // This node is one of the neighbors
+                foreach (var node in WorldMap.GetPassableNodes())
                 {
-                    var corner = false;
-                    // block any corner node that is surrounded by impassable nodes to stop angular movement
-                    switch (nodeCoordinate.Direction)
+                    if (neighborsDict.TryGetValue(node.Point, out Directions direction))
                     {
-                        case Directions.TopLeft:
-                            {
-                                var points = neighborsCoordinates
-                                    .Where(c => c.Direction == Directions.TopMiddle || c.Direction == Directions.Left)
-                                    .Select(c => c.Point);
-                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Terrain.Impassable))
-                                {
-                                    continue;
-                                }
-
-                                corner = !corner;
-                            }
-                            break;
-                        case Directions.TopRight:
-                            {
-                                var points = neighborsCoordinates
-                                    .Where(c => c.Direction == Directions.TopMiddle || c.Direction == Directions.Right)
-                                    .Select(c => c.Point);
-                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Terrain.Impassable))
-                                {
-                                    continue;
-                                }
-
-                                corner = !corner;
-                            }
-                            break;
-                        case Directions.BottomLeft:
-                            {
-                                var points = neighborsCoordinates
-                                    .Where(c => c.Direction == Directions.Left || c.Direction == Directions.BottomMiddle)
-                                    .Select(c => c.Point);
-                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Terrain.Impassable))
-                                {
-                                    continue;
-                                }
-
-                                corner = !corner;
-                            }
-                            break;
-                        case Directions.BottomRight:
-                            {
-                                var points = neighborsCoordinates
-                                    .Where(c => c.Direction == Directions.Right || c.Direction == Directions.BottomMiddle)
-                                    .Select(c => c.Point);
-                                if (graph.Where(n => points.Contains(n.Point)).All(n => n.Terrain.Impassable))
-                                {
-                                    continue;
-                                }
-
-                                corner = !corner;
-                            }
-                            break;
+                        yield return (direction, node);
                     }
-
-                    yield return (node, corner);
                 }
             }
+
+            foreach((Directions direction, Node node) in GetNodeNeighbors())
+            {
+                var corner = false;
+                switch (direction)
+                {
+                    case Directions.TopRight:
+                        {
+                            var impassable = GetNodeNeighbors()
+                                .Where(n => n.direction == Directions.TopMiddle || n.direction == Directions.Right)
+                                .All(n => n.node.Terrain.Impassable);
+
+                            if (impassable)
+                                continue;
+
+                            corner = true;
+                            break;
+                        }
+                    case Directions.BottomRight:
+                        {
+                            var impassable = GetNodeNeighbors()
+                                .Where(n => n.direction == Directions.BottomMiddle || n.direction == Directions.Right)
+                                .All(n => n.node.Terrain.Impassable);
+
+                            if (impassable)
+                                continue;
+
+                            corner = true;
+                            break;
+                        }
+                    case Directions.TopLeft:
+                        {
+                            var impassable = GetNodeNeighbors()
+                                .Where(n => n.direction == Directions.TopMiddle || n.direction == Directions.Left)
+                                .All(n => n.node.Terrain.Impassable);
+
+                            if (impassable)
+                                continue;
+
+                            corner = true;
+                            break;
+                        }
+                    case Directions.BottomLeft:
+                        {
+                            var impassable = GetNodeNeighbors()
+                                .Where(n => n.direction == Directions.BottomMiddle || n.direction == Directions.Left)
+                                .All(n => n.node.Terrain.Impassable);
+
+                            if (impassable)
+                                continue;
+
+                            corner = true;
+                            break;
+                        }
+                }
+
+                yield return (node, corner);
+            }              
         }
 
         private static float GetMovementCost(Node current, Node next)
@@ -191,10 +173,12 @@ namespace ConsoleApp1.Pathfinding
             //path.Reverse();
 
             // The path.Count will be 1 if it's an unreachable node that isn't a neighbor of the start node
+            // Check if its a reachable neighbor
             if (path.Count == 1)
             {
-                var (neighbor, _) = GetNeighbors(start).FirstOrDefault(n => n.neighbor.Point.Equals(path.First().Point));
-                if(neighbor == null)
+                var point = path.FirstOrDefault()?.Point;
+                var neighborsDict = NeighborCoordinateMapping(start);
+                if(point.HasValue && !neighborsDict.TryGetValue(point.Value, out _))
                     return new Stack<Node?>();
             }
 
@@ -204,7 +188,6 @@ namespace ConsoleApp1.Pathfinding
                 if (item is not null)
                 {
                     stack.Push(item);
-
                 }
             }
 
