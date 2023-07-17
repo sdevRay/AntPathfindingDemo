@@ -173,12 +173,9 @@ namespace ConsoleApp1.Pathfinding
             //path.Reverse();
 
             // The path.Count will be 1 if it's an unreachable node that isn't a neighbor of the start node
-            // Check if its a reachable neighbor
             if (path.Count == 1)
-            {
-                var point = path.FirstOrDefault()?.Point;
-                var neighborsDict = NeighborCoordinateMapping(start);
-                if(point.HasValue && !neighborsDict.TryGetValue(point.Value, out _))
+            {                
+                if(!GetNeighbors(start).Any(n => n.neighbor.Point == path.FirstOrDefault()?.Point))
                     return new Stack<Node?>();
             }
 

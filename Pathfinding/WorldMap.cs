@@ -58,12 +58,11 @@ namespace ConsoleApp1.Pathfinding
             return passable.ElementAt(Raylib.GetRandomValue(0, passable.Count() - 1));
         }
 
-        public static void DrawGraph()
+        public static void Draw()
         {
             foreach (var node in Graph)
             {
                 Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, Raylib_cs.Color.WHITE);
-                Raylib.DrawText("Ant count" + EntityManager.Insects.Count, -50, -50, 50, Raylib_cs.Color.WHITE);
             }
         }
     }

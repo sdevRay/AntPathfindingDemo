@@ -9,7 +9,7 @@ namespace ConsoleApp1
         public static void Main()
         {
             // Initialize
-            Raylib.InitWindow(1280, 720, "Ant Simulator");
+            Raylib.InitWindow(1280, 720, "Ant Simulator Demo");
             Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
 
             Art.Load();
@@ -21,11 +21,6 @@ namespace ConsoleApp1
 
             while (!Raylib.WindowShouldClose())
             {
-
-                Raylib.BeginDrawing();
-                Raylib.ClearBackground(Color.DARKBROWN);
-                WorldCamera.Begin2D(ref camera);
-
                 // Update
                 WorldCamera.Update(ref camera);
                 WorldCamera.UpdateCameraCenterSmoothFollow(ref camera, Raylib.GetFrameTime(), Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
@@ -33,10 +28,13 @@ namespace ConsoleApp1
                 EntityManager.Update();
 
                 // Draw
-                WorldMap.DrawGraph();
+                Raylib.BeginDrawing();
+                Raylib.ClearBackground(Color.DARKBROWN);
+                WorldCamera.Begin2D(ref camera);
+                WorldMap.Draw();
                 EntityManager.Draw();
-
                 WorldCamera.End2D();
+                UI.Draw();
                 Raylib.EndDrawing();
             }
 

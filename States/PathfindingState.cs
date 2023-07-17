@@ -1,6 +1,7 @@
 ﻿using ConsoleApp1.Entities;
 using ConsoleApp1.Pathfinding;
 using Raylib_cs;
+using System.ComponentModel;
 
 namespace ConsoleApp1.States
 {
@@ -11,13 +12,28 @@ namespace ConsoleApp1.States
 
         public PathfindingState(Entity pathfindingEntity, Node? target)
         {
-            _target = target;
 
             if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? startNode) 
                 && startNode is not null 
-                && _target is not null)
+                && target is not null)
             {
-                _path = AStarSearch.GetPath(startNode, _target);
+                _path = AStarSearch.GetPath(startNode, target);
+
+                if(_path.Any())
+                {
+                    _target = target;
+                }
+            }
+            else 
+            {
+                // TODO
+                // The player is caught on an impassable node
+                if (pathfindingEntity is PlayerInsect playerInsect)
+                {
+                        
+                }
+
+                pathfindingEntity.IsExpired = true;
             }
 
             SetNextTarget(pathfindingEntity);
@@ -36,7 +52,6 @@ namespace ConsoleApp1.States
             }
             else
             {
-                _target = null;
                 pathfindingEntity.SetState(new IdleState());
             }
         }
@@ -58,6 +73,10 @@ namespace ConsoleApp1.States
                 {
                     SetNextTarget(pathfindingEntity);
                 }
+            }
+            else
+            {
+                SetNextTarget(pathfindingEntity);
             }
         }
     }

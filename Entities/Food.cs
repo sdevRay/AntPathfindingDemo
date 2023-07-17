@@ -1,10 +1,12 @@
-﻿using Raylib_cs;
+﻿using ConsoleApp1.Pathfinding;
+using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.Entities
 {
     public class Food : Entity
     {
+        public static int Count;
         public Food(Texture2D texture, Vector2 position)
         {
             Texture = texture;
@@ -22,9 +24,14 @@ namespace ConsoleApp1.Entities
 
         }
 
-        public void Eaten()
+        public void GotEaten()
         {
-            IsExpired = true;
+            Count++;
+
+            var randomNode = WorldMap.GetRandomNode();
+            Position = randomNode.PixelOrigion;
+
+            //IsExpired = true;
         }
     }
 }
