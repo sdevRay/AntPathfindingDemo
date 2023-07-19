@@ -37,8 +37,22 @@ namespace ConsoleApp1.Pathfinding
                 y = 0;
             }
         }
-     
+
         public static bool TryGetNode(Vector2 position, out Node? node)
+        {
+            node = default;
+
+            var result = Graph.FirstOrDefault(n => Raylib.CheckCollisionPointRec(position, n.DestinationRectangle));
+            if (result != null)
+            {
+                node = result;
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TryGetPassableNode(Vector2 position, out Node? node)
         {
             node = default;
 
@@ -62,7 +76,11 @@ namespace ConsoleApp1.Pathfinding
         {
             foreach (var node in Graph)
             {
-                Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, Raylib_cs.Color.WHITE);
+                // TODO
+                // figrue out which draw method is best
+                Raylib.DrawTextureRec(node.Terrain.Texture, node.DestinationRectangle, new Vector2((int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y), Raylib_cs.Color.WHITE);
+
+               //Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, Raylib_cs.Color.WHITE);
             }
         }
     }

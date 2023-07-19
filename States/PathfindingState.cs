@@ -1,7 +1,6 @@
 ﻿using ConsoleApp1.Entities;
 using ConsoleApp1.Pathfinding;
 using Raylib_cs;
-using System.ComponentModel;
 
 namespace ConsoleApp1.States
 {
@@ -12,7 +11,6 @@ namespace ConsoleApp1.States
 
         public PathfindingState(Entity pathfindingEntity, Node? target)
         {
-
             if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? startNode) 
                 && startNode is not null 
                 && target is not null)
@@ -23,17 +21,6 @@ namespace ConsoleApp1.States
                 {
                     _target = target;
                 }
-            }
-            else 
-            {
-                // TODO
-                // The player is caught on an impassable node
-                if (pathfindingEntity is PlayerInsect playerInsect)
-                {
-                        
-                }
-
-                pathfindingEntity.IsExpired = true;
             }
 
             SetNextTarget(pathfindingEntity);
@@ -61,7 +48,7 @@ namespace ConsoleApp1.States
             if (_target is not null)
             {
                 //Check the movementCost of the terrain
-                if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? occupiedNode) 
+                if (WorldMap.TryGetPassableNode(pathfindingEntity.PixelOrigin, out Node? occupiedNode) 
                     && occupiedNode is not null 
                     && Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, occupiedNode.DestinationRectangle))
                 {

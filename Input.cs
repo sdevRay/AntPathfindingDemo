@@ -15,11 +15,10 @@ namespace ConsoleApp1
                 var mousePos = Raylib.GetMousePosition();
                 Vector2 screenPos = Raylib.GetScreenToWorld2D(new Vector2(mousePos.X, mousePos.Y), camera);
 
-                if (WorldMap.TryGetNode(screenPos, out Node? target))
+                if (WorldMap.TryGetPassableNode(screenPos, out Node? target))
                 {
                     PlayerInsect.Instance.SetState(new PathfindingState(PlayerInsect.Instance, target));
                 }
-
             }
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
