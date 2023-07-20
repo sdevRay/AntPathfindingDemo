@@ -22,7 +22,7 @@ namespace ConsoleApp1.Pathfinding
             int y = 0;
 
             int width = 20;
-            int height = 20;
+            int height = 15;
 
             var pixelBoundWidth = Raylib.GetScreenWidth() / width;
             var pixelBoundHeight = Raylib.GetScreenHeight() / height;
@@ -76,11 +76,7 @@ namespace ConsoleApp1.Pathfinding
         {
             foreach (var node in Graph)
             {
-                // TODO
-                // figrue out which draw method is best
-                Raylib.DrawTextureRec(node.Terrain.Texture, node.DestinationRectangle, new Vector2((int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y), Raylib_cs.Color.WHITE);
-
-               //Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, Raylib_cs.Color.WHITE);
+               Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, Raylib_cs.Color.WHITE);
             }
         }
     }
