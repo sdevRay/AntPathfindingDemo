@@ -19,7 +19,8 @@ namespace ConsoleApp1
 
             var camera = WorldCamera.GetCamera();
 
-            while (!Raylib.WindowShouldClose())
+			Raylib.SetTargetFPS(60);
+			while (!Raylib.WindowShouldClose())
             {
                 // Update
                 WorldCamera.Update(ref camera);
