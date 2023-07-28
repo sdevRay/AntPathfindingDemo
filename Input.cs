@@ -17,13 +17,13 @@ namespace ConsoleApp1
 
                 if (WorldMap.TryGetPassableNode(screenPos, out Node? target))
                 {
-                    PlayerInsect.Instance.SetState(new PathfindingState(PlayerInsect.Instance, target));
+                    AntQueen.Instance.SetState(new PathfindingState(AntQueen.Instance, target));
                 }
             }
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
-                EntityManager.Add(Insect.CreateAnt(PlayerInsect.Instance.Position));
+                EntityManager.Add(Ant.CreateAnt(new Vector2(AntQueen.Instance.Position.X + AntQueen.Instance.Radius, AntQueen.Instance.Position.Y + AntQueen.Instance.Radius)));
             }
         }
     }

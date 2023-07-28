@@ -7,8 +7,8 @@ namespace ConsoleApp1
     {
         public static void Draw()
         {
-            Raylib.DrawText("Ants " + Insect.Count, 20, 20, 25, Raylib_cs.Color.WHITE);
-            Raylib.DrawText("Pizzas " + Food.Count, 20, 50, 25, Raylib_cs.Color.WHITE);
+            //Raylib.DrawText("Ants " + Insect.Count, 20, 25, 25, Raylib_cs.Color.WHITE);
+            Raylib.DrawText("FPS " + Raylib.GetFPS().ToString(), 20, 75, 25, Raylib_cs.Color.WHITE);
         }
     }
 }

@@ -76,7 +76,8 @@ namespace ConsoleApp1.Pathfinding
         {
             foreach (var node in Graph)
             {
-               Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, Raylib_cs.Color.WHITE);
+               Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, node.Color);
+               //Raylib.DrawText(node.Point.ToString(), (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, 10, node.Color);
             }
         }
     }

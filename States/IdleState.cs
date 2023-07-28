@@ -15,7 +15,7 @@ namespace ConsoleApp1.States
 
         public IdleState()
         {
-            _newStateTimer = new CountdownTimer(Raylib.GetRandomValue(0, 3));
+            _newStateTimer = new CountdownTimer(Raylib.GetRandomValue(0, 4));
             _rotateTimer = new CountdownTimer(Raylib.GetRandomValue(3, 10));
             _delayTimer = new CountdownTimer(Raylib.GetRandomValue(0, 2));
 
@@ -25,6 +25,7 @@ namespace ConsoleApp1.States
 
         public void HandleAction(Entity entity, Actions action)
         {
+            throw new NotImplementedException();
         }
 
         public void Update(Entity entity)
@@ -52,7 +53,7 @@ namespace ConsoleApp1.States
                     }
                 }
 
-                if (entity is Insect insect)
+                if (entity is Ant insect)
                 {
                     if (!_newStateTimer.IsComplete())
                     {

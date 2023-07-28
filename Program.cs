@@ -14,7 +14,7 @@ namespace ConsoleApp1
 
             Art.Load();
             WorldMap.CreateGraph();
-            EntityManager.Add(PlayerInsect.Instance);
+            EntityManager.Add(AntQueen.Instance);
             EntityManager.Add(Food.CreatePizza(WorldMap.GetRandomNode().PixelOrigion));
 
             var camera = WorldCamera.GetCamera();

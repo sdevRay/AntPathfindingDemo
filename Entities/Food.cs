@@ -6,11 +6,13 @@ namespace ConsoleApp1.Entities
 {
     public class Food : Entity
     {
-        public static int Count;
         public Food(Texture2D texture, Vector2 position)
         {
             Texture = texture;
             Position = position;
+            SourceRectangle = new Rectangle(0, 0, Texture.width, Texture.height);
+            Origin = new Vector2(Texture.width / 2, Texture.height / 2);
+            DestinationRectangle = new Rectangle(Position.X, Position.Y, Texture.width, Texture.height);
         }
 
         public static Food CreatePizza(Vector2 position)
@@ -21,16 +23,14 @@ namespace ConsoleApp1.Entities
 
         public override void Update()
         {
-
+            DestinationRectangle.x = Position.X;
+            DestinationRectangle.y = Position.Y;
         }
 
-        public void GotEaten()
+        public void Eaten()
         {
-            Count++;
-
             var randomNode = WorldMap.GetRandomNode();
             Position = randomNode.PixelOrigion;
-
             //IsExpired = true;
         }
     }
