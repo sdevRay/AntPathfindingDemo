@@ -8,6 +8,7 @@ namespace ConsoleApp1
 {
     internal static class Input
     {
+        private static Node? _previousTarget;
         public static void Update(ref Camera2D camera)
         {
             if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
@@ -17,6 +18,15 @@ namespace ConsoleApp1
 
                 if (WorldMap.TryGetPassableNode(screenPos, out Node? target))
                 {
+                    if (_previousTarget is not null && _previousTarget != target)
+                    {
+                        _previousTarget.Color = Color.WHITE;
+                    }
+
+                    if(target is not null)
+                        target.Color = Color.RAYWHITE;
+
+                    _previousTarget = target;
                     AntQueen.Instance.SetState(new PathfindingState(AntQueen.Instance, target));
                 }
             }

@@ -7,11 +7,13 @@ namespace ConsoleApp1.Entities
 {
     internal class Ant : AnimatedEntity
     {
+        public static int Count { get; private set; }
         public Ant(Texture2D texture, Vector2 position) : base(texture, position)
         {
-            // Incase the entity spawns on impassable terrain, it will still move towards passable terrain
+            Count++;
+
+            // If the entity spawns on impassable terrain it will still move towards passable terrain
             Speed = 10f;
-            Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"[{DateTime.Now.TimeOfDay}] [{nameof(Entity)}] {nameof(Ant)} created.");
         }
 
         public static Ant CreateAnt(Vector2 position)

@@ -9,13 +9,13 @@ namespace ConsoleApp1.States
         readonly Stack<Node?> _path = new();
         Node? _target = null;
 
-        public PathfindingState(Entity pathfindingEntity, Node? target)
+        public PathfindingState(Entity pathfindingEntity, Node? finalTarget)
         {
             if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? startNode)
                 && startNode is not null
-                && target is not null)
+                && finalTarget is not null)
             {            
-                _path = AStarSearch.GetPath(startNode, target);
+                _path = AStarSearch.GetPath(startNode, finalTarget);
 
                 if(_path.Any())
                 {
@@ -56,6 +56,9 @@ namespace ConsoleApp1.States
                 if (EntityMathUtil.RotateTowardsTarget(pathfindingEntity, _target.PixelOrigion)
                     && EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _target.PixelOrigion))
                 {
+                    if(pathfindingEntity is AntQueen)
+                        _target.Color = Color.WHITE;
+
                     SetNextTarget(pathfindingEntity);
                 }
             }

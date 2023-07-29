@@ -1,5 +1,4 @@
-﻿using ConsoleApp1.Entities;
-using Raylib_cs;
+﻿using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.Pathfinding
@@ -9,15 +8,12 @@ namespace ConsoleApp1.Pathfinding
         public static List<Node> Graph = new();
         public static IEnumerable<Node> GetPassableNodes() { return Graph.Where(n => !n.Terrain.Impassable); }
         private static void AddNode(int x, int y, int pixelBoundWidth, int pixelBoundHeight)
-        {   
+        {
             Graph.Add(new Node(x, y, pixelBoundWidth, pixelBoundHeight));
         }
 
         public static void CreateGraph()
         {
-            // Waypoints are the key decision points where you might have to change direction.
-            // Design this around waypoints, and setting the insects seek state to each waypoint.
-
             int x = 0;
             int y = 0;
 
@@ -31,6 +27,7 @@ namespace ConsoleApp1.Pathfinding
             {
                 for (; y < height; y++)
                 {
+                    // Nodes are the key decision points where you might have to change direction.
                     AddNode(x, y, pixelBoundWidth, pixelBoundHeight);
                 }
 
@@ -62,7 +59,7 @@ namespace ConsoleApp1.Pathfinding
                 node = result;
                 return true;
             }
-            
+
             return false;
         }
 
@@ -76,8 +73,7 @@ namespace ConsoleApp1.Pathfinding
         {
             foreach (var node in Graph)
             {
-               Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, node.Color);
-               //Raylib.DrawText(node.Point.ToString(), (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, 10, node.Color);
+                Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, node.Color);
             }
         }
     }

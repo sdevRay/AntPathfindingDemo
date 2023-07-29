@@ -18,7 +18,6 @@ namespace ConsoleApp1.Entities
 
         public AntQueen(Texture2D texture, Vector2 position) : base(texture, position)
         { 
-            Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"[{DateTime.Now.TimeOfDay}] [{nameof(Entity)}] {nameof(AntQueen)} created.");         
         }
     }
 }
