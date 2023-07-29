@@ -10,7 +10,7 @@ namespace ConsoleApp1
         { 
             return new Camera2D
             {
-                target = PlayerInsect.Instance.Position,
+                target = AntQueen.Instance.Position,
                 offset = new Vector2(Raylib.GetScreenWidth() / 2, Raylib.GetScreenHeight() / 2),
                 rotation = 0.0f,
                 zoom = 1.5f
@@ -21,13 +21,13 @@ namespace ConsoleApp1
         {
             camera.zoom += ((float)Raylib.GetMouseWheelMove() * 0.05f);
 
-            if (camera.zoom > 3.0f)
+            if (camera.zoom > 2f)
             {
-                camera.zoom = 3.0f;
+                camera.zoom = 2f;
             }
-            else if (camera.zoom < 0.25f)
+            else if (camera.zoom < 0.75f)
             {
-                camera.zoom = 0.25f;
+                camera.zoom = 0.75f;
             }
         }
 
@@ -41,7 +41,7 @@ namespace ConsoleApp1
             const float fractionSpeed = 0.8f;
 
             camera.offset = new Vector2(width / 2, height / 2);
-            Vector2 diff = Vector2.Subtract(PlayerInsect.Instance.Position, camera.target);
+            Vector2 diff = Vector2.Subtract(AntQueen.Instance.Position, camera.target);
             float length = diff.Length();
 
             if (length > minEffectLength)

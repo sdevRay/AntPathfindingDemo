@@ -8,6 +8,7 @@ namespace ConsoleApp1
 {
     internal static class Input
     {
+        private static Node? _previousTarget;
         public static void Update(ref Camera2D camera)
         {
             if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
@@ -15,16 +16,24 @@ namespace ConsoleApp1
                 var mousePos = Raylib.GetMousePosition();
                 Vector2 screenPos = Raylib.GetScreenToWorld2D(new Vector2(mousePos.X, mousePos.Y), camera);
 
-                if (WorldMap.TryGetNode(screenPos, out Node? target))
+                if (WorldMap.TryGetPassableNode(screenPos, out Node? target))
                 {
-                    PlayerInsect.Instance.SetState(new PathfindingState(PlayerInsect.Instance, target));
-                }
+                    if (_previousTarget is not null && _previousTarget != target)
+                    {
+                        _previousTarget.Color = Color.WHITE;
+                    }
 
+                    if(target is not null)
+                        target.Color = Color.RAYWHITE;
+
+                    _previousTarget = target;
+                    AntQueen.Instance.SetState(new PathfindingState(AntQueen.Instance, target));
+                }
             }
 
             if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
             {
-                EntityManager.Add(Insect.CreateAnt(PlayerInsect.Instance.Position));
+                EntityManager.Add(Ant.CreateAnt(new Vector2(AntQueen.Instance.Position.X + AntQueen.Instance.Radius, AntQueen.Instance.Position.Y + AntQueen.Instance.Radius)));
             }
         }
     }

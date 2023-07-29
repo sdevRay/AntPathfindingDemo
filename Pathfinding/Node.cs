@@ -10,7 +10,7 @@ namespace ConsoleApp1.Pathfinding
         public Point Point { get; }
         public Raylib_cs.Rectangle DestinationRectangle { get; }
         public Vector2 PixelOrigion { get; }
-        public Raylib_cs.Color Color { get; set; } = Raylib_cs.Color.BLACK;
+        public Raylib_cs.Color Color { get; set; } = Raylib_cs.Color.WHITE;
         public Node(int x, int y, int pixelWidth, int pixelHeight)
         {
             Point = new Point(x, y);
@@ -19,19 +19,12 @@ namespace ConsoleApp1.Pathfinding
             
             // Randomly generate terrain type
             var random = Raylib.GetRandomValue(0, 5);
-            switch (random)
+            Terrain = random switch
             {
-                case 0:
-                    Terrain = Terrain.CreateMud();
-                    break;
-                case 1:
-                case 2:
-                    Terrain = Terrain.CreateDirt();
-                    break;
-                default:
-                    Terrain = Terrain.CreateGrass();
-                    break;
-            }
+                0 => Terrain.CreateImpassable(),
+                1 or 2 => Terrain.CreateRocky(),
+                _ => Terrain.CreateGrass(),
+            };
         }
     }
 }

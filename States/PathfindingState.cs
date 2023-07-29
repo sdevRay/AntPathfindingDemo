@@ -6,19 +6,22 @@ namespace ConsoleApp1.States
 {
     internal class PathfindingState : IState
     {
-        Stack<Node?> _path = new();
+        readonly Stack<Node?> _path = new();
         Node? _target = null;
 
-        public PathfindingState(Entity pathfindingEntity, Node? target)
+        public PathfindingState(Entity pathfindingEntity, Node? finalTarget)
         {
-            _target = target;
+            if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? startNode)
+                && startNode is not null
+                && finalTarget is not null)
+            {            
+                _path = AStarSearch.GetPath(startNode, finalTarget);
 
-            if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? startNode) && _target is not null)
-            {
-                _path = AStarSearch.GetPath(startNode, _target);
-            }
-
-            SetNextTarget(pathfindingEntity);
+                if(_path.Any())
+                {
+                    SetNextTarget(pathfindingEntity);       
+                }
+            } 
         }
 
         public void HandleAction(Entity entity, Actions action)
@@ -41,18 +44,27 @@ namespace ConsoleApp1.States
         public void Update(Entity pathfindingEntity)
         {
             if (_target is not null)
-            {
+            {   
                 //Check the movementCost of the terrain
-                if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? occupiedNode) && Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, occupiedNode.DestinationRectangle))
+                if (WorldMap.TryGetPassableNode(pathfindingEntity.PixelOrigin, out Node? occupiedNode) 
+                    && occupiedNode is not null 
+                    && Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, occupiedNode.DestinationRectangle))
                 {
-                    pathfindingEntity.Speed = Terrain.ApplyMovementCost(occupiedNode);
+                    pathfindingEntity.Speed = Terrain.ApplyMovementCost(occupiedNode, pathfindingEntity);
                 }
 
                 if (EntityMathUtil.RotateTowardsTarget(pathfindingEntity, _target.PixelOrigion)
                     && EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _target.PixelOrigion))
                 {
+                    if(pathfindingEntity is AntQueen)
+                        _target.Color = Color.WHITE;
+
                     SetNextTarget(pathfindingEntity);
                 }
+            }
+            else
+            {
+                SetNextTarget(pathfindingEntity);
             }
         }
     }

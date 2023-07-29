@@ -1,21 +1,22 @@
-﻿using Raylib_cs;
+﻿using ConsoleApp1.Entities;
+using Raylib_cs;
 
 namespace ConsoleApp1.Pathfinding
 {
     public enum TerrainType
     {
         Grass,
-        Mud,
-        Dirt
+        Impassable,
+        Rocky
     }
 
     public class Terrain
     {
         private static readonly IDictionary<TerrainType, int> _movementCostTerrainTypeMapping = new Dictionary<TerrainType, int>()
         {
-            { TerrainType.Mud, 0 },
+            { TerrainType.Impassable, 0 },
             { TerrainType.Grass, 1 },
-            { TerrainType.Dirt, 2 },
+            { TerrainType.Rocky, 2 },
         };
 
         public TerrainType Type { get; }
@@ -33,32 +34,29 @@ namespace ConsoleApp1.Pathfinding
 
         public static Terrain CreateGrass()
         {
-            return new Terrain(TerrainType.Grass, Art.Grass, false);
+            return new Terrain(TerrainType.Grass, Art.Grass, impassable: false);
         }
 
-        public static Terrain CreateDirt()
+        public static Terrain CreateRocky()
         {
-            return new Terrain(TerrainType.Dirt, Art.Dirt, false);
+            return new Terrain(TerrainType.Rocky, Art.Rocky, impassable: false);
         }
 
-        public static Terrain CreateMud()
+        public static Terrain CreateImpassable()
         {
-            return new Terrain(TerrainType.Mud, Art.Mud, true);
+            return new Terrain(TerrainType.Impassable, Art.Impassable, impassable: true);
         }
 
-        public static float ApplyMovementCost(Node node)
+        public static float ApplyMovementCost(Node node, Entity pathfindingEntity)
         {
-            switch (node.Terrain.Type)
+            return (node.Terrain.Type, pathfindingEntity) switch
             {
-                case TerrainType.Dirt:
-                    return 75f;
-                case TerrainType.Grass:
-                    return 125f;
-                case TerrainType.Mud:
-                    return 0f;
-                default:
-                    throw new InvalidOperationException($"Invalid {nameof(TerrainType)}: ${node.Terrain.Type}");
-            }
+                (TerrainType.Rocky, Ant) => 75f,
+                (TerrainType.Rocky, AntQueen) => 55f,
+                (TerrainType.Grass, Ant) => 125f,
+                (TerrainType.Grass, AntQueen) => 105f,
+                _ => throw new InvalidOperationException($"Invalid {nameof(TerrainType)}: ${node.Terrain.Type}"),
+            };
         }
     }
 }

@@ -1,32 +1,32 @@
 ﻿using ConsoleApp1.Entities;
 using ConsoleApp1.Pathfinding;
 using Raylib_cs;
+using System.Numerics;
 
 namespace ConsoleApp1
 {
     static class Program
     {
-        public static bool Debug = false;
         public static void Main()
         {
-            // Initialize
-            Raylib.InitWindow(1280, 720, "Ant Simulator");
-            Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
+            var screenSize = new Vector2(1280, 720);
 
+            // Initialize
+            Raylib.InitWindow((int)screenSize.X, (int)screenSize.Y, "Ant Pathfinding Demo");
+            Raylib.SetTraceLogLevel(TraceLogLevel.LOG_DEBUG);
+            //Raylib.TraceLog(TraceLogLevel.LOG_INFO, $"{DateTime.Now.TimeOfDay} Initialized");
+
+            UI.ScreenSize = screenSize;
             Art.Load();
             WorldMap.CreateGraph();
-            EntityManager.Add(PlayerInsect.Instance);
+            EntityManager.Add(AntQueen.Instance);
             EntityManager.Add(Food.CreatePizza(WorldMap.GetRandomNode().PixelOrigion));
 
             var camera = WorldCamera.GetCamera();
 
-            while (!Raylib.WindowShouldClose())
+			Raylib.SetTargetFPS(60);
+			while (!Raylib.WindowShouldClose())
             {
-
-                Raylib.BeginDrawing();
-                Raylib.ClearBackground(Color.DARKBROWN);
-                WorldCamera.Begin2D(ref camera);
-
                 // Update
                 WorldCamera.Update(ref camera);
                 WorldCamera.UpdateCameraCenterSmoothFollow(ref camera, Raylib.GetFrameTime(), Raylib.GetScreenWidth(), Raylib.GetScreenHeight());
@@ -34,10 +34,13 @@ namespace ConsoleApp1
                 EntityManager.Update();
 
                 // Draw
-                WorldMap.DrawGraph();
+                Raylib.BeginDrawing();
+                Raylib.ClearBackground(Color.DARKBROWN);
+                WorldCamera.Begin2D(ref camera);
+                WorldMap.Draw();
                 EntityManager.Draw();
-
                 WorldCamera.End2D();
+                UI.Draw();
                 Raylib.EndDrawing();
             }
 

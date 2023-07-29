@@ -5,24 +5,20 @@ namespace ConsoleApp1.Pathfinding
 {
     internal class WorldMap
     {
-        public static List<Node> Graph = new List<Node>();
-
+        public static List<Node> Graph = new();
         public static IEnumerable<Node> GetPassableNodes() { return Graph.Where(n => !n.Terrain.Impassable); }
         private static void AddNode(int x, int y, int pixelBoundWidth, int pixelBoundHeight)
-        {   
+        {
             Graph.Add(new Node(x, y, pixelBoundWidth, pixelBoundHeight));
         }
 
         public static void CreateGraph()
         {
-            // Waypoints are the key decision points where you might have to change direction.
-            // Design this around waypoints, and setting the insects seek state to each waypoint.
-
             int x = 0;
             int y = 0;
 
             int width = 20;
-            int height = 20;
+            int height = 15;
 
             var pixelBoundWidth = Raylib.GetScreenWidth() / width;
             var pixelBoundHeight = Raylib.GetScreenHeight() / height;
@@ -31,14 +27,29 @@ namespace ConsoleApp1.Pathfinding
             {
                 for (; y < height; y++)
                 {
+                    // Nodes are the key decision points where you might have to change direction.
                     AddNode(x, y, pixelBoundWidth, pixelBoundHeight);
                 }
 
                 y = 0;
             }
         }
-     
+
         public static bool TryGetNode(Vector2 position, out Node? node)
+        {
+            node = default;
+
+            var result = Graph.FirstOrDefault(n => Raylib.CheckCollisionPointRec(position, n.DestinationRectangle));
+            if (result != null)
+            {
+                node = result;
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool TryGetPassableNode(Vector2 position, out Node? node)
         {
             node = default;
 
@@ -48,7 +59,7 @@ namespace ConsoleApp1.Pathfinding
                 node = result;
                 return true;
             }
-            
+
             return false;
         }
 
@@ -58,12 +69,11 @@ namespace ConsoleApp1.Pathfinding
             return passable.ElementAt(Raylib.GetRandomValue(0, passable.Count() - 1));
         }
 
-        public static void DrawGraph()
+        public static void Draw()
         {
             foreach (var node in Graph)
             {
-                Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, Raylib_cs.Color.WHITE);
-                Raylib.DrawText(node.Point.ToString(), (int)node.DestinationRectangle.x + 5, (int)node.DestinationRectangle.y + 5, 12, node.Color);
+                Raylib.DrawTexture(node.Terrain.Texture, (int)node.DestinationRectangle.x, (int)node.DestinationRectangle.y, node.Color);
             }
         }
     }

@@ -9,19 +9,23 @@ namespace ConsoleApp1.States
     {
         private CountdownTimer _rotateTimer;
         private CountdownTimer _newStateTimer;
+        private CountdownTimer _delayTimer;
+
         private Vector2 _target;
 
         public IdleState()
         {
-            var randomLifetime = Raylib.GetRandomValue(0, 6);
-            _newStateTimer = new CountdownTimer(randomLifetime);
+            _newStateTimer = new CountdownTimer(Raylib.GetRandomValue(0, 4));
+            _rotateTimer = new CountdownTimer(Raylib.GetRandomValue(3, 10));
+            _delayTimer = new CountdownTimer(Raylib.GetRandomValue(0, 2));
 
-            _rotateTimer = new CountdownTimer(3);
             _target = WorldMap.GetRandomNode().PixelOrigion;
+
         }
 
         public void HandleAction(Entity entity, Actions action)
         {
+            throw new NotImplementedException();
         }
 
         public void Update(Entity entity)
@@ -29,28 +33,36 @@ namespace ConsoleApp1.States
             if (entity.Velocity != Vector2.Zero)
                 entity.Velocity = Vector2.Zero;
 
-            if (EntityMathUtil.RotateTowardsTarget(entity, _target))
+            // Short delay before random rotations
+            if (!_delayTimer.IsComplete())
             {
-                if (!_rotateTimer.IsComplete())
-                {
-                    _rotateTimer.Update();
-                }
-                else
-                {
-                    _target = WorldMap.GetRandomNode().PixelOrigion;
-                    _rotateTimer.Reset();
-                }
+                _delayTimer.Update();
             }
-
-            if (entity is Insect insect)
+            else
             {
-                if (!_newStateTimer.IsComplete())
+                if (EntityMathUtil.RotateTowardsTarget(entity, _target))
                 {
-                    _newStateTimer.Update();
+                    if (!_rotateTimer.IsComplete())
+                    {
+                        _rotateTimer.Update();
+                    }
+                    else
+                    {
+                        _target = WorldMap.GetRandomNode().PixelOrigion;
+                        _rotateTimer.Reset();
+                    }
                 }
-                else
+
+                if (entity is Ant insect)
                 {
-                    insect.SetState(new PathfindingState(insect, WorldMap.GetRandomNode()));
+                    if (!_newStateTimer.IsComplete())
+                    {
+                        _newStateTimer.Update();
+                    }
+                    else
+                    {
+                        insect.SetState(new PathfindingState(insect, WorldMap.GetRandomNode()));
+                    }
                 }
             }
         }
