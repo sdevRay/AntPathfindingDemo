@@ -14,7 +14,10 @@ Something like that old game [Sim Ant](https://en.wikipedia.org/wiki/SimAnt).
 
 ## Game
 Play as a hungry queen ant on the quest for pizza. Spawn helper ants to feed the colony.
-![ddd](Assets/screenshot.png)
+
+![Queen ant with pizza](Assets/screenshot.png)
+
+[Download win-x64](https://drive.google.com/file/d/1bcsQgn3o6bJdyCFmIwnDGvPmaUucWF8t/view?usp=drive_link) 5.8 MB
 
 ### Controls - Mouse only
 * Left click: move
