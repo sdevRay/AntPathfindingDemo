@@ -2,7 +2,6 @@
 using ConsoleApp1.States;
 using Raylib_cs;
 using System.Numerics;
-using System.Xml.Serialization;
 
 namespace ConsoleApp1.Entities
 {
