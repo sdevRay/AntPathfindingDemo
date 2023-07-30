@@ -17,7 +17,7 @@ Play as a hungry queen ant on the quest for pizza. Spawn helper ants to feed the
 
 ![Queen ant with pizza](Assets/screenshot.png)
 
-[Download win-x64](https://drive.google.com/file/d/1GQwrObH63T65pZk9mxLWJhIs9H3ZOVdi/view?usp=sharing) 5.8 MB
+[Download win-x64](https://drive.google.com/file/d/1sPcffGf4f_4KQEgbnXgVjRreQyzWIBvq/view?usp=sharing) 5.8 MB
 
 ### Controls - Mouse only
 * Left click: move
