@@ -1,9 +1,10 @@
 ## Ant Pathfinding Demo
-Influenced by all of the AI hype, I thought it would be fun to create a system that had the appearence of a very simple intelligence. 
+Inspired by all of the AI hype, I thought it would be fun to create a system that had the appearence of a very simple intelligence. 
 Something like that old game [Sim Ant](https://en.wikipedia.org/wiki/SimAnt).
 
 #### Design
-* A simple implementation of the [State Pattern](https://en.wikipedia.org/wiki/State_pattern). The Ants have two states, idle or pathfinding. 
+* Architecture influenced by [Cross-Platform Vector Shooter: XNA](https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559).
+* Simple implementation of the [State Pattern](https://en.wikipedia.org/wiki/State_pattern).
 * Pathfinding with the A* Algorithm using [Introduction to the A* Algorithm from Red Blob Games](https://www.redblobgames.com/pathfinding/a-star/introduction.html).
 
 #### Technology
