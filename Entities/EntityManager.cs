@@ -7,11 +7,26 @@ namespace ConsoleApp1.Entities
 {
     static class EntityManager
     {
-        static List<Entity> _entities = new();
+        private static List<Entity> _entities = new();
+        private static List<Entity> _addedEntities = new();
         private static List<Ant> _ants = new();
-        static List<Food> _foods = new();
+        private static List<Food> _foods = new();
+
+        private static bool _isUpdating;
 
         public static void Add(Entity entity)
+        {
+            if (!_isUpdating)
+            {
+                AddEntity(entity);
+            }
+            else
+            {
+                _addedEntities.Add(entity);
+            }
+        }
+
+        private static void AddEntity(Entity entity)
         {
             _entities.Add(entity);
 
@@ -28,12 +43,24 @@ namespace ConsoleApp1.Entities
 
         public static void Update()
         {
+            _isUpdating = true;
+
             HandleCollisions();
+            Food.UpdateSpawner();
 
             foreach (var entity in _entities)
             {
                 entity.Update();
             }
+
+            _isUpdating = false;
+
+            foreach (var entity in _addedEntities)
+            {
+                AddEntity(entity);
+            }
+
+            _addedEntities.Clear();
 
             _entities = _entities.Where(entity => !entity.IsExpired).ToList();
             _foods = _foods.Where(entity => !entity.IsExpired).ToList();
@@ -98,9 +125,10 @@ namespace ConsoleApp1.Entities
                     {
                         // Once an ant reaches food, clear all food seeking ants so they're eligible to seek food again.
                         var hungryAnts = _ants.Where(a => a.SeekingFood);
-                        foreach(var ant in hungryAnts)
+                        foreach(var hungryAnt in hungryAnts)
                         {
-                            ant.SeekingFood = false;
+                            hungryAnt.SeekingFood = false;
+                            hungryAnt.SetState(new IdleState());
                         }
 
                         _foods[j].Eaten();

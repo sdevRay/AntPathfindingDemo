@@ -15,8 +15,8 @@ namespace ConsoleApp1.States
 
         public IdleState()
         {
-            _newStateTimer = new CountdownTimer(Raylib.GetRandomValue(0, 4));
-            _rotateTimer = new CountdownTimer(Raylib.GetRandomValue(3, 10));
+            _newStateTimer = new CountdownTimer(Raylib.GetRandomValue(0, 6));
+            _rotateTimer = new CountdownTimer(Raylib.GetRandomValue(2, 6));
             _delayTimer = new CountdownTimer(Raylib.GetRandomValue(0, 2));
 
             _target = WorldMap.GetRandomNode().PixelOrigion;

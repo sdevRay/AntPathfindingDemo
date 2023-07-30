@@ -18,14 +18,14 @@ namespace ConsoleApp1.Entities
             Speed = 10f;
 
             // The radius that the ant will seek food from its current position
-            SeekRange = 150f;
+            SeekRange = 100f;
         }
 
         public static Ant CreateAnt(Vector2 position)
         {
-            var insect = new Ant(Art.Ant, position);
-            insect.SetState(new PathfindingState(insect, WorldMap.GetRandomNode()));
-            return insect;
+            var ant = new Ant(Art.Ant, position);
+            ant.SetState(new PathfindingState(ant, WorldMap.GetRandomNode()));
+            return ant;
         }
     }
 }
