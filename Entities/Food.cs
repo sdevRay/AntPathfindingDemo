@@ -1,4 +1,5 @@
 ﻿using ConsoleApp1.Pathfinding;
+using ConsoleApp1.States;
 using Raylib_cs;
 using System.Numerics;
 
@@ -6,6 +7,8 @@ namespace ConsoleApp1.Entities
 {
     public class Food : Entity
     {
+        private static CountdownTimer _spawnDelayTimer;
+        private static bool _spawnDelay = true;
         public Food(Texture2D texture, Vector2 position)
         {
             Texture = texture;
@@ -21,6 +24,22 @@ namespace ConsoleApp1.Entities
             return food;
         }
 
+        public static void UpdateSpawner()
+        {
+            if (_spawnDelay)
+            {
+                if (!_spawnDelayTimer.IsComplete())
+                {
+                    _spawnDelayTimer.Update();
+                }
+                else
+                {
+                    EntityManager.Add(CreatePizza(WorldMap.GetRandomNode().PixelOrigion));
+                    _spawnDelay = false;
+                }
+            }
+        }
+
         public override void Update()
         {
             DestinationRectangle.x = Position.X;
@@ -29,9 +48,9 @@ namespace ConsoleApp1.Entities
 
         public void Eaten()
         {
-            var randomNode = WorldMap.GetRandomNode();
-            Position = randomNode.PixelOrigion;
-            //IsExpired = true;
+            _spawnDelay = true;
+            _spawnDelayTimer = new CountdownTimer(3f);
+            IsExpired = true; 
         }
     }
 }
