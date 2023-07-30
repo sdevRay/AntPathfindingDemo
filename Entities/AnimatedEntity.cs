@@ -7,7 +7,7 @@ namespace ConsoleApp1.Entities
     internal class AnimatedEntity : Entity
     {
         private int _currentFrame, _framesCounter = 0;
-        private readonly int _framesSpeed = 20;
+        private readonly int _framesSpeed = 12;
 
         public AnimatedEntity(Texture2D texture, Vector2 position) 
         {

@@ -18,7 +18,7 @@ namespace ConsoleApp1
             Raylib.DrawText(fps, (int)ScreenSize.X - Raylib.MeasureText(fps, FontSize) - Offset, Offset, FontSize, Color);
 
             Raylib.DrawText("Left click: move", 10, (int)ScreenSize.Y - ((FontSize * 3) + Offset), FontSize, Color);
-            Raylib.DrawText("Spacebar: spawn ant", 10, (int)ScreenSize.Y - ((FontSize * 2) + Offset), FontSize, Color);
+            Raylib.DrawText("Right click: spawn ant", 10, (int)ScreenSize.Y - ((FontSize * 2) + Offset), FontSize, Color);
             Raylib.DrawText("Scroll wheel: +/- zoom", 10, (int)ScreenSize.Y - (FontSize + Offset), FontSize, Color);
         }
     }

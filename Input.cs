@@ -29,9 +29,8 @@ namespace ConsoleApp1
                     _previousTarget = target;
                     AntQueen.Instance.SetState(new PathfindingState(AntQueen.Instance, target));
                 }
-            }
-
-            if (Raylib.IsKeyPressed(KeyboardKey.KEY_SPACE))
+            } 
+            else if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_RIGHT))
             {
                 EntityManager.Add(Ant.CreateAnt(new Vector2(AntQueen.Instance.Position.X + AntQueen.Instance.Radius, AntQueen.Instance.Position.Y + AntQueen.Instance.Radius)));
             }
