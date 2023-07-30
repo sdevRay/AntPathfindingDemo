@@ -1,4 +1,6 @@
-﻿using Raylib_cs;
+﻿using ConsoleApp1.Pathfinding;
+using ConsoleApp1.States;
+using Raylib_cs;
 using System.Numerics;
 
 namespace ConsoleApp1.Entities
@@ -82,8 +84,25 @@ namespace ConsoleApp1.Entities
             {
                 for (int j = 0; j < _foods.Count; j++)
                 {
-                    if (Raylib.CheckCollisionCircles(_foods[j].Position, _foods[j].Radius, _ants[i].Position, _ants[i].Radius))
+                    if (Raylib.CheckCollisionCircles(_foods[j].Position, _foods[j].Radius, _ants[i].Position, _ants[i].SeekRange) && !_ants[i].SeekingFood)
                     {
+                        if(WorldMap.TryGetNode(_foods[j].PixelOrigin, out Node? targetNode))
+                        {
+                            _ants[i].SeekingFood = true;
+                            _ants[i].SetState(new PathfindingState(_ants[i], targetNode));
+                            continue;
+                        }
+                    }
+
+                    if (Raylib.CheckCollisionCircles(_foods[j].Position, _foods[j].Radius, _ants[i].Position, _ants[i].Radius) && _ants[i].SeekingFood)
+                    {
+                        // Once an ant reaches food, clear all food seeking ants so they're eligible to seek food again.
+                        var hungryAnts = _ants.Where(a => a.SeekingFood);
+                        foreach(var ant in hungryAnts)
+                        {
+                            ant.SeekingFood = false;
+                        }
+
                         _foods[j].Eaten();
                     }
                 }
