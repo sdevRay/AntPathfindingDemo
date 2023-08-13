@@ -1,6 +1,6 @@
 ## Ant Pathfinding Demo
 Inspired by all of the AI hype, I thought it would be fun to create a system that had the appearence of a very simple intelligence. 
-Something like that old game [Sim Ant](https://en.wikipedia.org/wiki/SimAnt).
+There isn't an objective or goal, rather its a simple implementation of the A* pathfinding algorithm with a theme inspired by [Sim Ant](https://en.wikipedia.org/wiki/SimAnt).
 
 #### Design
 * Architecture influenced by [Cross-Platform Vector Shooter: XNA](https://gamedevelopment.tutsplus.com/series/cross-platform-vector-shooter-xna--gamedev-10559).
