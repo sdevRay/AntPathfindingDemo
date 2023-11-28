@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace ConsoleApp1.Pathfinding
+namespace AntPathfindingDemo.Pathfinding
 {
     // https://www.redblobgames.com/pathfinding/a-star/introduction.html
     public class AStarSearch

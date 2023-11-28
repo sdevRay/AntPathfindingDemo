@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Numerics;
 
-namespace ConsoleApp1
+namespace AntPathfindingDemo
 {
     internal static class Extensions
     {        

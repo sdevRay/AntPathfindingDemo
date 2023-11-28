@@ -1,7 +1,7 @@
 ﻿using Raylib_cs;
 using System.Numerics;
 
-namespace ConsoleApp1.Pathfinding
+namespace AntPathfindingDemo.Pathfinding
 {
     internal class WorldMap
     {

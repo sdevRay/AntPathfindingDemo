@@ -1,6 +1,6 @@
-﻿using ConsoleApp1.Entities;
+﻿using AntPathfindingDemo.Entities;
 
-namespace ConsoleApp1.States
+namespace AntPathfindingDemo.States
 {
     public interface IState
     {

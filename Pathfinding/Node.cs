@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Numerics;
 
-namespace ConsoleApp1.Pathfinding
+namespace AntPathfindingDemo.Pathfinding
 {
     public class Node
     {

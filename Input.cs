@@ -1,10 +1,10 @@
-﻿using ConsoleApp1.Entities;
-using ConsoleApp1.Pathfinding;
-using ConsoleApp1.States;
+﻿using AntPathfindingDemo.Entities;
+using AntPathfindingDemo.Pathfinding;
+using AntPathfindingDemo.States;
 using Raylib_cs;
 using System.Numerics;
 
-namespace ConsoleApp1
+namespace AntPathfindingDemo
 {
     internal static class Input
     {

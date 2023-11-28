@@ -1,9 +1,9 @@
-﻿using ConsoleApp1.Entities;
-using ConsoleApp1.Pathfinding;
+﻿using AntPathfindingDemo.Entities;
+using AntPathfindingDemo.Pathfinding;
 using Raylib_cs;
 using System.Numerics;
 
-namespace ConsoleApp1.States
+namespace AntPathfindingDemo.States
 {
     internal class IdleState : IState
     {
