@@ -50,7 +50,7 @@ namespace AntPathfindingDemo.Entities
         {
             _spawnDelay = true;
             _spawnDelayTimer = new CountdownTimer(3f);
-            IsExpired = true; 
+            IsExpired = true;
         }
     }
 }

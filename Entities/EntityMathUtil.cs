@@ -40,7 +40,7 @@ namespace AntPathfindingDemo.Entities
             entity.Velocity = normalizedDirection;
 
             // Target reached
-            return Vector2.Distance(entity.Position, target) <  10f;
+            return Vector2.Distance(entity.Position, target) < 10f;
         }
     }
 }

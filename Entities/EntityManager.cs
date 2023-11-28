@@ -113,7 +113,7 @@ namespace AntPathfindingDemo.Entities
                 {
                     if (Raylib.CheckCollisionCircles(_foods[j].Position, _foods[j].Radius, _ants[i].Position, _ants[i].SeekRange) && !_ants[i].SeekingFood)
                     {
-                        if(WorldMap.TryGetNode(_foods[j].PixelOrigin, out Node? targetNode))
+                        if (WorldMap.TryGetNode(_foods[j].PixelOrigin, out Node? targetNode))
                         {
                             _ants[i].SeekingFood = true;
                             _ants[i].SetState(new PathfindingState(_ants[i], targetNode));
@@ -125,7 +125,7 @@ namespace AntPathfindingDemo.Entities
                     {
                         // Once an ant reaches food, clear all food seeking ants so they're eligible to seek food again.
                         var hungryAnts = _ants.Where(a => a.SeekingFood);
-                        foreach(var hungryAnt in hungryAnts)
+                        foreach (var hungryAnt in hungryAnts)
                         {
                             hungryAnt.SeekingFood = false;
                             hungryAnt.SetState(new IdleState());

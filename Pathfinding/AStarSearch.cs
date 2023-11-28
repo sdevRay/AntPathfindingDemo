@@ -77,7 +77,7 @@ namespace AntPathfindingDemo.Pathfinding
         {
             var neighborsDict = NeighborCoordinateMapping(current);
 
-            IEnumerable<(Directions direction, Node node) > GetNodeNeighbors()
+            IEnumerable<(Directions direction, Node node)> GetNodeNeighbors()
             {
                 foreach (var node in WorldMap.GetPassableNodes())
                 {
@@ -88,7 +88,7 @@ namespace AntPathfindingDemo.Pathfinding
                 }
             }
 
-            foreach((Directions direction, Node node) in GetNodeNeighbors())
+            foreach ((Directions direction, Node node) in GetNodeNeighbors())
             {
                 var corner = false;
                 switch (direction)
@@ -144,7 +144,7 @@ namespace AntPathfindingDemo.Pathfinding
                 }
 
                 yield return (node, corner);
-            }              
+            }
         }
 
         private static float GetMovementCost(Node current, Node next)
@@ -174,8 +174,8 @@ namespace AntPathfindingDemo.Pathfinding
 
             // The path.Count will be 1 if it's an unreachable node that isn't a neighbor of the start node
             if (path.Count == 1)
-            {                
-                if(!GetNeighbors(start).Any(n => n.neighbor.Point == path.FirstOrDefault()?.Point))
+            {
+                if (!GetNeighbors(start).Any(n => n.neighbor.Point == path.FirstOrDefault()?.Point))
                     return new Stack<Node?>();
             }
 

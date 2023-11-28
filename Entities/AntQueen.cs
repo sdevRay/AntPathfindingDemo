@@ -17,7 +17,7 @@ namespace AntPathfindingDemo.Entities
         }
 
         public AntQueen(Texture2D texture, Vector2 position) : base(texture, position)
-        { 
+        {
         }
     }
 }

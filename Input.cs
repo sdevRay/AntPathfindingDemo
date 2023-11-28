@@ -23,13 +23,13 @@ namespace AntPathfindingDemo
                         _previousTarget.Color = Color.WHITE;
                     }
 
-                    if(target is not null)
+                    if (target is not null)
                         target.Color = Color.RAYWHITE;
 
                     _previousTarget = target;
                     AntQueen.Instance.SetState(new PathfindingState(AntQueen.Instance, target));
                 }
-            } 
+            }
             else if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_RIGHT))
             {
                 EntityManager.Add(Ant.CreateAnt(new Vector2(AntQueen.Instance.Position.X + AntQueen.Instance.Radius, AntQueen.Instance.Position.Y + AntQueen.Instance.Radius)));

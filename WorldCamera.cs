@@ -6,8 +6,8 @@ namespace AntPathfindingDemo
 {
     public static class WorldCamera
     {
-        public static Camera2D GetCamera() 
-        { 
+        public static Camera2D GetCamera()
+        {
             return new Camera2D
             {
                 target = AntQueen.Instance.Position,
