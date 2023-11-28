@@ -23,8 +23,8 @@ namespace AntPathfindingDemo
 
             var camera = WorldCamera.GetCamera();
 
-			Raylib.SetTargetFPS(144);
-			while (!Raylib.WindowShouldClose())
+            Raylib.SetTargetFPS(144);
+            while (!Raylib.WindowShouldClose())
             {
                 // Update
                 WorldCamera.Update(ref camera);
@@ -46,6 +46,6 @@ namespace AntPathfindingDemo
             // Dispose
             Art.Unload();
             Raylib.CloseWindow();
-        }       
+        }
     }
 }

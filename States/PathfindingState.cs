@@ -14,14 +14,14 @@ namespace AntPathfindingDemo.States
             if (WorldMap.TryGetNode(pathfindingEntity.PixelOrigin, out Node? startNode)
                 && startNode is not null
                 && finalTarget is not null)
-            {            
+            {
                 _path = AStarSearch.GetPath(startNode, finalTarget);
 
-                if(_path.Any())
+                if (_path.Any())
                 {
-                    SetNextTarget(pathfindingEntity);       
+                    SetNextTarget(pathfindingEntity);
                 }
-            } 
+            }
         }
 
         public void HandleAction(Entity entity, Actions action)
@@ -44,10 +44,10 @@ namespace AntPathfindingDemo.States
         public void Update(Entity pathfindingEntity)
         {
             if (_target is not null)
-            {   
+            {
                 //Check the movementCost of the terrain
-                if (WorldMap.TryGetPassableNode(pathfindingEntity.PixelOrigin, out Node? occupiedNode) 
-                    && occupiedNode is not null 
+                if (WorldMap.TryGetPassableNode(pathfindingEntity.PixelOrigin, out Node? occupiedNode)
+                    && occupiedNode is not null
                     && Raylib.CheckCollisionRecs(pathfindingEntity.DestinationRectangle, occupiedNode.DestinationRectangle))
                 {
                     pathfindingEntity.Speed = Terrain.ApplyMovementCost(occupiedNode, pathfindingEntity);
@@ -56,7 +56,7 @@ namespace AntPathfindingDemo.States
                 if (EntityMathUtil.RotateTowardsTarget(pathfindingEntity, _target.PixelOrigion)
                     && EntityMathUtil.MoveTowardsTarget(pathfindingEntity, _target.PixelOrigion))
                 {
-                    if(pathfindingEntity is AntQueen)
+                    if (pathfindingEntity is AntQueen)
                         _target.Color = Color.WHITE;
 
                     SetNextTarget(pathfindingEntity);

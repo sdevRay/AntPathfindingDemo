@@ -9,7 +9,7 @@ namespace AntPathfindingDemo.Entities
         private int _currentFrame, _framesCounter = 0;
         private readonly int _framesSpeed = 12;
 
-        public AnimatedEntity(Texture2D texture, Vector2 position) 
+        public AnimatedEntity(Texture2D texture, Vector2 position)
         {
             Texture = texture;
             Position = position;
@@ -38,7 +38,8 @@ namespace AntPathfindingDemo.Entities
                     if (_currentFrame > 4) _currentFrame = 0;
                     SourceRectangle.x = (float)_currentFrame * (float)Texture.width / 4;
                 }
-            } else if (State is IdleState)
+            }
+            else if (State is IdleState)
             {
                 if (SourceRectangle.x != 0)
                     SourceRectangle.x = 0;

@@ -16,7 +16,7 @@ namespace AntPathfindingDemo.Pathfinding
             Point = new Point(x, y);
             DestinationRectangle = new Raylib_cs.Rectangle(x * pixelWidth, y * pixelHeight, pixelWidth, pixelHeight);
             PixelOrigion = new Vector2(DestinationRectangle.x + DestinationRectangle.width / 2, DestinationRectangle.y + DestinationRectangle.height / 2);
-            
+
             // Randomly generate terrain type
             var random = Raylib.GetRandomValue(0, 5);
             Terrain = random switch

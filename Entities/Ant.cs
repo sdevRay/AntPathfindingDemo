@@ -8,7 +8,7 @@ namespace AntPathfindingDemo.Entities
     internal class Ant : AnimatedEntity
     {
         public static int Count { get; private set; }
-        public float SeekRange {get; private set;}  
+        public float SeekRange { get; private set; }
         public bool SeekingFood { get; set; }
         public Ant(Texture2D texture, Vector2 position) : base(texture, position)
         {
