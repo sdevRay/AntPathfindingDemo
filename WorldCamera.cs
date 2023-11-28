@@ -1,8 +1,8 @@
-﻿using ConsoleApp1.Entities;
+﻿using AntPathfindingDemo.Entities;
 using Raylib_cs;
 using System.Numerics;
 
-namespace ConsoleApp1
+namespace AntPathfindingDemo
 {
     public static class WorldCamera
     {

@@ -1,7 +1,7 @@
-﻿using ConsoleApp1.Entities;
+﻿using AntPathfindingDemo.Entities;
 using Raylib_cs;
 
-namespace ConsoleApp1.Pathfinding
+namespace AntPathfindingDemo.Pathfinding
 {
     public enum TerrainType
     {

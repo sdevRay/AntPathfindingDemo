@@ -1,6 +1,6 @@
 ﻿using Raylib_cs;
 
-namespace ConsoleApp1
+namespace AntPathfindingDemo
 {
 	static class Art
 	{

@@ -1,8 +1,8 @@
-﻿using ConsoleApp1.Pathfinding;
+﻿using AntPathfindingDemo.Pathfinding;
 using Raylib_cs;
 using System.Numerics;
 
-namespace ConsoleApp1.Entities
+namespace AntPathfindingDemo.Entities
 {
     internal class AntQueen : AnimatedEntity
     {

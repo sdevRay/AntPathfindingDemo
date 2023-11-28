@@ -1,6 +1,6 @@
 ﻿using Raylib_cs;
 
-namespace ConsoleApp1.States
+namespace AntPathfindingDemo.States
 {
     // usage
     //if (!_timer.IsComplete())

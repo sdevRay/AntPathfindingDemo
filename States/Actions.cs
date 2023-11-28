@@ -1,4 +1,4 @@
-﻿namespace ConsoleApp1.States
+﻿namespace AntPathfindingDemo.States
 {
     // TODO 
     // Have entities interact with each other and the environment  

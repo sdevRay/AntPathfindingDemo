@@ -1,7 +1,7 @@
 ﻿using Raylib_cs;
 using System.Numerics;
 
-namespace ConsoleApp1.Entities
+namespace AntPathfindingDemo.Entities
 {
     internal static class EntityMathUtil
     {

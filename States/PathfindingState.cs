@@ -1,8 +1,8 @@
-﻿using ConsoleApp1.Entities;
-using ConsoleApp1.Pathfinding;
+﻿using AntPathfindingDemo.Entities;
+using AntPathfindingDemo.Pathfinding;
 using Raylib_cs;
 
-namespace ConsoleApp1.States
+namespace AntPathfindingDemo.States
 {
     internal class PathfindingState : IState
     {
